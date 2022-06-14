@@ -1,0 +1,5 @@
+require("signals.battery")
+require("signals.brightness")
+require("signals.volume")
+require("signals.cpu")
+require("signals.ram")

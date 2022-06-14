@@ -1,0 +1,107 @@
+configuration {
+    /*font:			"Iosevka Nerd Font 10";*/
+    modi: "window,run,ssh,drun";
+    font:			"Montserrat";
+    padding:                    0;
+    show-icons:                 true;
+    icon-theme: 		"Papirus";
+    display-drun: 		"";
+    drun-display-format:        "{name}";
+    disable-history:            false;
+    sidebar-mode: 		false;
+}
+
+@import "colours.rasi"
+
+window {
+    transparency:               "real";
+    background-color:           @bg;
+    border:                     0;
+    border-color:               @bg;
+    border-radius:              12px;
+    width:                      30%;
+    padding:                    0;
+}
+
+mainbox {
+    border:                     0;
+    border-color:               @ac;
+    padding:                    0px;
+    children:                   [ inputbar, listview ];
+}
+
+prompt {
+    enabled:                    true;
+    padding:                    0.3% 1% 0% -0.5%;
+    background-color:           @al;
+    text-color:                 @bg;
+    font:                       "Montserrat";
+}
+
+entry {
+    background-color:           @al;
+    text-color:                 @bg;
+    placeholder-color:          @bg;
+    placeholder:                "Search";
+    padding:                    0.1% 0% 0% 0%;
+    blink:                      true;
+    expand:                     true;
+}
+
+inputbar {
+    children:                   [ prompt, entry ];
+    background-color:           @ac;
+    text-color:                 @bg;
+    expand:                     false;
+    border:                     0% 0% 0% 0%;
+    border-radius:              12px 12px 0px 0px;
+    border-color:               @ac;
+    margin:                     0% 0% 0% 0%;
+    padding:                    1.5%;
+}
+
+listview {
+    background-color:           @al;
+    padding:                    0px;
+    columns:                    5;
+    lines:                      3;
+    spacing:                    0;
+    cycle:                      false;
+    dynamic:                    true;
+    layout:                     vertical;
+}
+
+element {
+    orientation:                vertical;
+    border-radius:              12px;
+    padding:                    2% 0% 2% 0%;
+}
+
+element-icon {
+    size:                       64px;
+    border:                     0;
+    horizontal-align:           0.5;
+    vertical-align:             0.5;
+}
+
+element-text {
+    expand:                     true;
+    horizontal-align:           0.5;
+    vertical-align:             0.5;
+    margin:                     0.5% 0.5% -0.5% 0.5%;
+}
+
+element normal.normal {
+    background-color:           inherit;
+    text-color:                 @fg;
+}
+
+element alternate.normal {
+    background-color:           inherit;
+    text-color:                 @fg;
+}
+
+element selected.normal {
+    background-color:           @se;
+    text-color:                 @fg;
+}
