@@ -41,6 +41,7 @@ playerctl:connect_signal("metadata", function(_, title, artist, album_path, _, _
         album_path = user.awesome_config .. "/icons/media-playback-start.png"
     end
 
+    naughty.notify({ title = artist, text = title, image = album_path })
     -- doesnt seem to produce proper album paths
     -- dont think it plays nice with NAS
     awful.spawn.easy_async("playerctl metadata --format '{{mpris:artUrl}}'", function(stdout, _, _, exit_code)

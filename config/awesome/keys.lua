@@ -71,7 +71,14 @@ local global_keys = gears.table.join(
                 { description = "pause/play", group = "media" }),
     awful.key({ modKey }, "#85",
                 function() awful.spawn.with_shell("playerctl next") end,
-                { description = "pause/play", group = "media" })
+                { description = "pause/play", group = "media" }),
+
+    awful.key({ modKey, "Shift" }, "Right",
+                function() awful.tag.viewidx(1) end,
+                { description = "move next tag", group = "tag" }),
+    awful.key({ modKey, "Shift" }, "Left",
+                function() awful.tag.viewidx(-1) end,
+                { description = "move previous tag", group = "tag" })
 )
 
 for i = 1, 9 do
@@ -113,20 +120,7 @@ for i = 1, 9 do
                         end
                     end
                 end,
-                { description = "toggle focused client on tag #" .. i, group = "tag" }),
-
-        awful.key({ modKey, "Shift" }, "Right",
-                function()
-                    if client.focus then
-                        local a = i
-                        if a >= 9 then a = 1 end
-                        local tag = client.focus.screen.tag[a]
-                        if tag then
-                            client.focus:move_to_tag(tag)
-                        end
-                    end
-                end,
-                { description = "move focused client to next tag", group = "tag" })
+                { description = "toggle focused client on tag #" .. i, group = "tag" })
     )
 end
 
