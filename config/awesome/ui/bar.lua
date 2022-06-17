@@ -28,7 +28,7 @@ awful.screen.connect_for_each_screen(function(s)
                     valign = "center",
                     widget = wibox.widget.textbox
                 },
-                bg = "#666666",
+                bg = beautiful.panel1,
                 shape = utils.rrect(dpi(8)),
                 forced_width = dpi(30),
                 forced_height = dpi(30),
@@ -43,16 +43,24 @@ awful.screen.connect_for_each_screen(function(s)
     local bar = wibox.widget {
         {
             --left
-            nil,
+            {
+                button(dpi(30), { bg = beautiful.panel1, shape = utils.rrect(dpi(15)) }, function()
+                    awful.layout.inc(1)
+                end),
+                margins = dpi(2),
+                widget = wibox.container.margin
+            }
+            ,
             --mid
             taglist,
             --right
             {
                 battery(dpi(30), "north", true),
-                brightness(dpi(30), "north"),
-                volume(dpi(30), "north"),
-                clock(15, "north"),
-                button(dpi(30), { bg = "#abcabc", shape = utils.rrect(dpi(15)) }, function()
+                clock(15, { colour = beautiful.fg_focus }),
+                button(dpi(30), { bg = beautiful.colours.green, shape = utils.rrect(dpi(15)) }, function()
+                    awful.spawn("rofi -show drun")
+                end),
+                button(dpi(30), { bg = beautiful.colours.blue, shape = utils.rrect(dpi(15)) }, function()
                     awesome.emit_signal("signals::sidepanel")
                 end),
                 spacing = dpi(5),
@@ -75,11 +83,11 @@ awful.screen.connect_for_each_screen(function(s)
         type = "dock",
         height = dpi(30),
         width = s.geometry.width -dpi(48),
-        bg = "#aaaaaa",
-        shape = utils.rrect(dpi(15)),
+        bg = beautiful.panel,
+        shape = utils.rrect(beautiful.rounded_corners),
         widget = bar
     })
 
-    awful.placement.top(s.bar, { margins = dpi(8) })
-    s.bar:struts({ top = s.bar.height + dpi(8) * 2, bottom = 0, left = 0, right = 0 })
+    awful.placement.top(s.bar, { margins = beautiful.useless_gap })
+    s.bar:struts({ top = s.bar.height + beautiful.useless_gap * 2, bottom = 0, left = 0, right = 0 })
 end)

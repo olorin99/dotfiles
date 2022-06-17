@@ -35,6 +35,24 @@ local tasklist_buttons = gears.table.join(
     end)
 )
 
+function create_icon(args)
+
+    local c = args.client or "invalid"
+    local cmd = args.cmd or function () end
+
+    local icon = wibox.widget {
+        {
+            id = "icon_role",
+            text = c,
+            widget = wibox.widget.textbox
+        },
+        forced_width = dpi(48),
+        forced_height = dpi(48),
+        widget = wibox.container.background
+    }
+
+    return icon
+end
 
 awful.screen.connect_for_each_screen(function(s)
     
@@ -85,8 +103,8 @@ awful.screen.connect_for_each_screen(function(s)
     local dock = wibox.widget {
         {
             battery(dpi(48), "north", true),
-            brightness(dpi(48)),
-            volume(dpi(48)),
+            brightness({ width = dpi(48) }),
+            volume({ width = dpi(48)}),
             tasklist,
             spacing = dpi(10),
             layout = wibox.layout.fixed.horizontal
@@ -100,11 +118,12 @@ awful.screen.connect_for_each_screen(function(s)
         visible = true,
         ontop = true,
         placement = awful.placement.bottom,
-        bg = "#ffffffff",
-        shape = utils.rrect(dpi(15)),
+        bg = beautiful.panel,
+        shape = utils.rrect(beautiful.rounded_corners),
         widget = dock,
         type = "dock"
     })
+    --awful.placement.bottom(s.dock, { margins = beautiful.useless_gap })
 
     s.dock_trigger = wibox {
         screen = s,
@@ -130,6 +149,7 @@ awful.screen.connect_for_each_screen(function(s)
 
     s.dock:connect_signal("property::width", function()
         s.dock_trigger.width = s.dock.width
+        --awful.placement.bottom(s.dock, { margins = beautiful.useless_gap })
         awful.placement.bottom(s.dock_trigger)
     end)
 

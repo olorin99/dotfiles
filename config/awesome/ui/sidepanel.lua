@@ -17,10 +17,10 @@ awful.screen.connect_for_each_screen(function(s)
 
     local sidepanel = wibox.widget {
         {
-            clock(37),
+            clock(37, { colour = beautiful.fg_focus }),
             battery(dpi(50), "north", true),
-            brightness(dpi(50)),
-            volume(dpi(50)),
+            brightness({ height = dpi(25), width = dpi(100) }),
+            volume({ height = dpi(25), width = dpi(100) }),
             cpu(dpi(50)),
             ram(dpi(50)),
             button(dpi(50), { bg = "#ff0000" }, function()
@@ -39,8 +39,8 @@ awful.screen.connect_for_each_screen(function(s)
         visible = false,
         ontop = true,
         placement = awful.placement.right,
-        bg = "#bbbbbb",
-        shape = utils.rrect(dpi(15)),
+        bg = beautiful.panel,
+        shape = utils.prrect(beautiful.rounded_corners, true, false, false, true),
         widget = sidepanel,
         type = "dock"
     }

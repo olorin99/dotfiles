@@ -9,11 +9,12 @@ local dpi = beautiful.xresources.apply_dpi
 return function(size, orientation, percentage)
 
     local progress = wibox.widget {
-        color = "#00ff00",
+        color = "#40a02b",
+        background_color = beautiful.panel1,
         forced_height = size / 2,
         forced_width = size,
-        border_width = dpi(0.5),
-        border_color = "#000000",
+        border_width = beautiful.border_width,
+        border_color = beautiful.border_normal,
         bar_shape = utils.rrect(dpi(2)),
         shape = utils.rrect(dpi(4)),
         value = 70,
@@ -48,7 +49,7 @@ return function(size, orientation, percentage)
 
     awesome.connect_signal("signals::battery", function(value)
         if percentage then
-            percentage_text.markup = "<span color=\"black\">" .. tostring(value) .. "%</span>"
+            percentage_text.markup = utils.coloured_text(tostring(value) .. "%", "#000000")
         end
         progress.value = value
     end)

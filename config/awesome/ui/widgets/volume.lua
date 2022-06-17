@@ -8,20 +8,25 @@ local gears = require("gears")
 
 local naughty = require("naughty")
 
-return function(size, orientation)
+return function(args)
+    local orientation = args.orientation or "north"
+    local colour = args.colour or beautiful.colours.blue
+    local height = args.height or dpi(15)
+    local width = args.width or height * 2
+
 
     local volume_slider = wibox.widget {
         bar_shape = utils.rrect(dpi(8)),
-        bar_height = size / 2,
-        bar_color = "#ff0000",
-        bar_active_color = "#00ff00",
-        bar_border_width = dpi(0.5),
-        bar_border_color = "#000000",
-        handle_color = "#00ff00",
-        handle_shape = gears.shape.circle,
-        handle_width = size / 2 - dpi(0.5),
-        forced_width = size,
-        forced_height = size / 2,
+        bar_height = height,
+        bar_color = beautiful.panel1,
+        bar_active_color = colour,
+        bar_border_width = beautiful.border_width,
+        bar_border_color = beautiful.border_color,
+        handle_color = colour,
+        handle_shape = utils.rrect(dpi(4)),
+        handle_width = height - beautiful.border_width,
+        forced_width = width,
+        forced_height = height,
         value = 70,
         maximum = 100,
         minimum = 0,
@@ -31,7 +36,7 @@ return function(size, orientation)
     local volume = wibox.widget {
         {
             volume_slider,
-            direction = orientation or "north",
+            direction = orientation,
             widget = wibox.container.rotate
         },
         valign = "center",

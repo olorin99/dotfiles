@@ -1,107 +1,102 @@
-configuration {
-    /*font:			"Iosevka Nerd Font 10";*/
-    modi: "window,run,ssh,drun";
-    font:			"Montserrat";
-    padding:                    0;
-    show-icons:                 true;
-    icon-theme: 		"Papirus";
-    display-drun: 		"";
-    drun-display-format:        "{name}";
-    disable-history:            false;
-    sidebar-mode: 		false;
+configuration{
+    modi: "run,drun,window";
+    lines: 5;
+    font: "JetBrainsMono Nerd Font 14";
+    show-icons: true;
+    icon-theme: "Oranchelo";
+    terminal: "st";
+    drun-display-format: "{icon} {name}";
+    location: 0;
+    disable-history: false;
+    hide-scrollbar: true;
+    display-drun: "   Apps ";
+    display-run: "   Run ";
+    display-window: " 﩯  window";
+    display-Network: " 󰤨  Network";
+    sidebar-mode: true;
 }
 
-@import "colours.rasi"
+@import "catppuccin.rasi"
+
+element-text, element-icon , mode-switcher {
+    background-color: inherit;
+    text-color:       inherit;
+}
 
 window {
-    transparency:               "real";
-    background-color:           @bg;
-    border:                     0;
-    border-color:               @bg;
-    border-radius:              12px;
-    width:                      30%;
-    padding:                    0;
+    height: 360px;
+    border: 3px;
+    border-color: @border-col;
+    background-color: @bg-col;
 }
 
 mainbox {
-    border:                     0;
-    border-color:               @ac;
-    padding:                    0px;
-    children:                   [ inputbar, listview ];
-}
-
-prompt {
-    enabled:                    true;
-    padding:                    0.3% 1% 0% -0.5%;
-    background-color:           @al;
-    text-color:                 @bg;
-    font:                       "Montserrat";
-}
-
-entry {
-    background-color:           @al;
-    text-color:                 @bg;
-    placeholder-color:          @bg;
-    placeholder:                "Search";
-    padding:                    0.1% 0% 0% 0%;
-    blink:                      true;
-    expand:                     true;
+    background-color: @bg-col;
 }
 
 inputbar {
-    children:                   [ prompt, entry ];
-    background-color:           @ac;
-    text-color:                 @bg;
-    expand:                     false;
-    border:                     0% 0% 0% 0%;
-    border-radius:              12px 12px 0px 0px;
-    border-color:               @ac;
-    margin:                     0% 0% 0% 0%;
-    padding:                    1.5%;
+    children: [prompt,entry];
+    background-color: @bg-col;
+    border-radius: 5px;
+    padding: 2px;
+}
+
+prompt {
+    background-color: @blue;
+    padding: 6px;
+    text-color: @bg-col;
+    border-radius: 3px;
+    margin: 20px 0px 0px 20px;
+}
+
+textbox-prompt-colon {
+    expand: false;
+    str: ":";
+}
+
+entry {
+    padding: 6px;
+    margin: 20px 0px 0px 10px;
+    text-color: @fg-col;
+    background-color: @bg-col;
 }
 
 listview {
-    background-color:           @al;
-    padding:                    0px;
-    columns:                    5;
-    lines:                      3;
-    spacing:                    0;
-    cycle:                      false;
-    dynamic:                    true;
-    layout:                     vertical;
+    border: 0px 0px 0px;
+    padding: 6px 0px 0px;
+    margin: 10px 0px 0px 20px;
+    columns: 2;
+    background-color: @bg-col;
 }
 
 element {
-    orientation:                vertical;
-    border-radius:              12px;
-    padding:                    2% 0% 2% 0%;
+    padding: 5px;
+    background-color: @bg-col;
+    text-color: @fg-col  ;
 }
 
 element-icon {
-    size:                       64px;
-    border:                     0;
-    horizontal-align:           0.5;
-    vertical-align:             0.5;
+    size: 25px;
 }
 
-element-text {
-    expand:                     true;
-    horizontal-align:           0.5;
-    vertical-align:             0.5;
-    margin:                     0.5% 0.5% -0.5% 0.5%;
+element selected {
+    background-color:  @selected-col ;
+    text-color: @fg-col2  ;
 }
 
-element normal.normal {
-    background-color:           inherit;
-    text-color:                 @fg;
+mode-switcher {
+    spacing: 0;
+  }
+
+button {
+    padding: 10px;
+    background-color: @bg-col-light;
+    text-color: @grey;
+    vertical-align: 0.5; 
+    horizontal-align: 0.5;
 }
 
-element alternate.normal {
-    background-color:           inherit;
-    text-color:                 @fg;
-}
-
-element selected.normal {
-    background-color:           @se;
-    text-color:                 @fg;
+button selected {
+  background-color: @bg-col;
+  text-color: @blue;
 }

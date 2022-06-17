@@ -10,37 +10,6 @@ local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 require("awful.hotkeys_popup.keys")
 
-beautiful.init("/home/christian/.config/awesome/theme/default.lua")
-
-user = {
-    home = os.getenv("HOME"),
-    terminal = "alacritty",
-    editor = os.getenv("EDITOR") or "vim"
-}
-
-user.awesome_config = user.home .. "/.config/awesome"
-
-require("signals")
-local keys = require("keys")
-require("ui")
-local utils = require("utils")
-
-local bling = require("modules.bling")
-bling.widget.window_switcher.enable {
-    type = "thumbnail",
-
-    hide_window_switcher_key = "Escape",
-    minimize_key = "n",
-    unminimize_key = "N",
-    kill_client_key = "q",
-    cycle_key = "Tab",
-    previous_key = "Left",
-    next_key = "Right",
-    vim_previous_key = "h",
-    vim_next_key = "l"
-}
-
-
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -65,6 +34,40 @@ do
     end)
 end
 -- }}}
+
+user = {
+    home = os.getenv("HOME"),
+    terminal = "alacritty",
+    editor = os.getenv("EDITOR") or "vim",
+    theme = "mocha"
+}
+
+user.awesome_config = user.home .. "/.config/awesome"
+
+beautiful.init(user.awesome_config .. "/theme/" .. user.theme .. ".lua")
+
+
+require("signals")
+local keys = require("keys")
+require("ui")
+local utils = require("utils")
+
+local bling = require("modules.bling")
+bling.widget.window_switcher.enable {
+    type = "thumbnail",
+
+    hide_window_switcher_key = "Escape",
+    minimize_key = "n",
+    unminimize_key = "N",
+    kill_client_key = "q",
+    cycle_key = "Tab",
+    previous_key = "Left",
+    next_key = "Right",
+    vim_previous_key = "h",
+    vim_next_key = "l"
+}
+
+
 
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
@@ -126,14 +129,6 @@ root.buttons(gears.table.join(
 -- Rules to apply to new clients (through the "manage" signal).
 awful.rules.rules = {
 
-    {
-        rule_any = {
-            class = { "music" },
-            instance = { "music" }
-        },
-        properties = {},
-        callback = music_decorations
-    },
     -- All clients will match this rule.
     { rule = { },
       properties = { border_width = beautiful.border_width,
@@ -143,6 +138,7 @@ awful.rules.rules = {
                      keys = keys.client_keys,
                      buttons = keys.client_buttons,
                      screen = awful.screen.preferred,
+                     margins = beautiful.useless_gap,
                      placement = awful.placement.no_overlap+awful.placement.no_offscreen
      }
     },
@@ -204,7 +200,7 @@ client.connect_signal("manage", function (c)
     end
 
     if not c.fullscreen and not c.maximized then
-        c.shape = utils.rrect(beautiful.xresources.apply_dpi(15))
+        c.shape = utils.rrect(beautiful.rounded_corners)
     end
 end)
 

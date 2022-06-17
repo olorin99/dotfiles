@@ -13,6 +13,12 @@ utils.rrect = function(radius)
     end
 end
 
+utils.prrect = function(radius, tl, tr, br, bl)
+    return function(cr, width, height)
+        gears.shape.partially_rounded_rect(cr, width, height, tl, tr, br, bl, radius)
+    end
+end
+
 utils.snap = function(c, edge, geometry)
     
     local screenGeometry = screen[c.screen].geometry
@@ -26,11 +32,11 @@ utils.snap = function(c, edge, geometry)
 
     local cg = geometry or c:geometry()
     local border = c.border_width
-    local cs = c:struts()
-    cs['left'] = 0
-    cs['top'] = 0
-    cs['right'] = 0
-    cs['bottom'] = 0
+    --local cs = c:struts()
+    --cs['left'] = 0
+    --cs['top'] = 0
+    --cs['right'] = 0
+    --cs['bottom'] = 0
     if edge ~= nil then
 --        c:struts(cs)
     end
@@ -79,12 +85,12 @@ utils.snap = function(c, edge, geometry)
         awful.placement.centered(c)
         return
     elseif edge == nil then
-        c:struts(cs)
+        --c:struts(cs)
         c:geometry(cg)
         return
     end
     
-    c.floating = true
+    --c.floating = true
     if c.maximized then c.maximized = false end
     c:geometry(cg)
     awful.placement.no_offscreen(c)

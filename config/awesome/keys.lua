@@ -20,6 +20,10 @@ local global_keys = gears.table.join(
                 awesome.quit,
                 { description = "quit awesome", group = "awesome" }),
 
+    awful.key({ modKey }, "space",
+                function() awful.layout.inc(1) end,
+                { description = "next layout", group = "layout" }),
+
     awful.key({  }, "XF86MonBrightnessUp",
                 function()
                     awful.spawn("brightnessctl set 5%+ -q", false)
@@ -73,11 +77,29 @@ local global_keys = gears.table.join(
                 function() awful.spawn.with_shell("playerctl next") end,
                 { description = "pause/play", group = "media" }),
 
-    awful.key({ modKey, "Shift" }, "Right",
+    awful.key({ modKey, "Control" }, "Right",
                 function() awful.tag.viewidx(1) end,
                 { description = "move next tag", group = "tag" }),
-    awful.key({ modKey, "Shift" }, "Left",
+    awful.key({ modKey, "Control" }, "Left",
                 function() awful.tag.viewidx(-1) end,
+                { description = "move previous tag", group = "tag" }),
+    awful.key({ modKey, "Control", "Shift" }, "Right",
+                function()
+                    if client.focus then
+                        local tag = client.focus.first_tag
+                        local index = tag.index
+                        client.focus:move_to_tag(awful.screen.focused().tags[index + 1])
+                    end
+                end,
+                { description = "move next tag", group = "tag" }),
+    awful.key({ modKey, "Control", "Shift" }, "Left",
+                function()
+                    if client.focus then
+                        local tag = client.focus.first_tag
+                        local index = tag.index
+                        client.focus:move_to_tag(awful.screen.focused().tags[index - 1])
+                    end
+                end,
                 { description = "move previous tag", group = "tag" })
 )
 
