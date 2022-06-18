@@ -56,6 +56,9 @@ awful.screen.connect_for_each_screen(function(s)
             button(dpi(50), { bg = beautiful.colours.maroon }, function()
                 awful.spawn("shutdown now")
             end),
+            button(dpi(50), { bg = beautiful.colours.green }, function()
+                awful.spawn("reboot now")
+            end),
             button(dpi(50), { bg = beautiful.colours.blue }, awesome.quit),
             layout = wibox.layout.flex.horizontal
         }),

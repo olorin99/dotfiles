@@ -44,8 +44,11 @@ awful.screen.connect_for_each_screen(function(s)
         {
             --left
             {
-                button(dpi(30), { bg = beautiful.panel1, shape = utils.rrect(dpi(15)), icon = beautiful.layout_floating }, function(self)
-                    awful.layout.inc(1) --TODO: make so icon rotates between layouts
+                button(dpi(30), { bg = beautiful.panel1, shape = utils.rrect(dpi(15)), icon = beautiful.layout_icons[1] }, function(self)
+                    awful.layout.inc(1)
+
+                    local tag = s.selected_tag
+                    self.children[1].image = beautiful.layout_icons[awful.layout.get_tag_layout_index(tag)]
                 end),
                 margins = dpi(2),
                 widget = wibox.container.margin

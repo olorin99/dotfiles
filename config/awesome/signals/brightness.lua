@@ -21,13 +21,15 @@ awful.spawn.easy_async_with_shell("sh -c 'OUT=\"$(find /sys/class/backlight/?*/b
     end)
 
     -- run whenever brightness file changes
-    awful.spawn.with_line_callback("sh -c \"while (inotifywait -e modify " .. brightness_file .. " -qq) do echo; done\"", {
-        stdout = function(_)
-            awful.spawn.with_line_callback(brightness_script, {
-                stdout = function(line)
-                    awesome.emit_signal("signals::brightness", math.floor(tonumber(line)))
-                end
-            })
-        end
-    })
+    awful.spawn.easy_async_with_shell("ps x | grep \"inotifywait -e modify " .. brightness_file .. "\" | grep -v grep | awk '{print $1}' | xargs kill", function()
+        awful.spawn.with_line_callback("sh -c \"while (inotifywait -e modify " .. brightness_file .. " -qq) do echo; done\"", {
+            stdout = function(_)
+                awful.spawn.with_line_callback(brightness_script, {
+                    stdout = function(line)
+                        awesome.emit_signal("signals::brightness", math.floor(tonumber(line)))
+                    end
+                })
+            end
+        })
+    end)
 end)

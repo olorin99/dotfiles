@@ -10,15 +10,17 @@ awful.spawn.easy_async("sh -c \"awk -F'[][]' '/Left:/ { print $2 }' <(amixer sge
     awesome.emit_signal("signals::volume", tonumber(volume))
 end)
 
-awful.spawn.with_line_callback("sh -c \"pactl subscribe | grep --line-buffered 'sink'\"", {
-    stdout = function(out)
+awful.spawn.easy_async_with_shell("ps x | grep \"pactl subscribe\" | grep -v grep | awk '{print $1}' | xargs kill", function()
+    awful.spawn.with_line_callback("sh -c \"pactl subscribe | grep --line-buffered 'sink'\"", {
+        stdout = function(out)
+        
+            awful.spawn.easy_async("sh -c \"awk -F'[][]' '/Left:/ { print $2 }' <(amixer sget Master)\"", function(out, _, _, exit_code)
     
-        awful.spawn.easy_async("sh -c \"awk -F'[][]' '/Left:/ { print $2 }' <(amixer sget Master)\"", function(out, _, _, exit_code)
-
-            local volume = string.gsub(out, "%%", "")
-            volume = string.gsub(volume, "\n", "")
-            awesome.emit_signal("signals::volume", tonumber(volume))
-        end)
-
-    end
-})
+                local volume = string.gsub(out, "%%", "")
+                volume = string.gsub(volume, "\n", "")
+                awesome.emit_signal("signals::volume", tonumber(volume))
+            end)
+    
+        end
+    })
+end)
