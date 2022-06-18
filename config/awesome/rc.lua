@@ -39,10 +39,19 @@ user = {
     home = os.getenv("HOME"),
     terminal = "alacritty",
     editor = os.getenv("EDITOR") or "vim",
-    theme = "mocha"
+    theme = "mocha",
+    icon_theme = "Tela-dark"
 }
 
 user.awesome_config = user.home .. "/.config/awesome"
+
+local pinned_apps = {
+    { class = "chrome", icon = user.home .. "/.local/share/icons/Tela-dark/scalable@3x/apps/google-chrome.svg", cmd = function() awful.spawn("/usr/bin/google-chrome-stable %U") end },
+    { class = "nautilus", icon = user.home .. "/.local/share/icons/Tela-dark/scalable@3x/apps/nautilus.svg", cmd = function() awful.spawn("nautilus --new-window") end },
+    { class = "ncmpcpp", icon = user.home .. "/.local/share/icons/Tela-dark/scalable@3x/apps/music_icon-24.svg", cmd = function() awful.spawn("alacritty --class=music,music -e ncmpcpp") end }
+}
+
+user.pinned_apps = pinned_apps
 
 beautiful.init(user.awesome_config .. "/theme/" .. user.theme .. ".lua")
 
@@ -72,8 +81,8 @@ bling.widget.window_switcher.enable {
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
-    awful.layout.suit.floating,
     awful.layout.suit.tile,
+    awful.layout.suit.floating,
 --    awful.layout.suit.tile.left,
 --    awful.layout.suit.tile.bottom,
 --    awful.layout.suit.tile.top,

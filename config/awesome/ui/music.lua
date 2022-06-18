@@ -8,6 +8,8 @@ local playerctl = require("modules.bling").signal.playerctl.cli()
 local button = require("ui.widgets.button")
 local naughty = require("naughty")
 
+local media_controller = require("ui.widgets.media_control")
+
 local album_art = wibox.widget {
     --clip_shape = utils.rrect(dpi(15)),
     forced_height = dpi(80),
@@ -81,18 +83,7 @@ function music_decorations(c)
                 top = dpi(20),
                 widget = wibox.container.margin
             },
-            {
-                button(dpi(50), { bg = "#00ff00" }, function()
-                    playerctl:previous()
-                end),
-                button(dpi(50), { bg = "#ff0000" }, function()
-                    playerctl:play_pause()
-                end),
-                button(dpi(50), { bg = "#0000ff" }, function()
-                    playerctl:next()
-                end),
-                layout = wibox.layout.fixed.horizontal
-            },
+            media_controller({ width = dpi(300), player = "mpd" }),
             layout = wibox.layout.align.horizontal
         },
         left = dpi(20),

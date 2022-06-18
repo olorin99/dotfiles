@@ -74,7 +74,10 @@ theme.error = colours.maroon
 
 theme.brightness_icon = user.awesome_config .. "/icons/display-brightness.png"
 theme.volume_icon = user.awesome_config .. "/icons/audio-volume-high.png"
-
+theme.media_play_pause_icon = user.awesome_config ..
+"/icons/media-play-pause.png"
+theme.media_next_icon = user.awesome_config .. "/icons/media-next.png"
+theme.media_previous_icon = user.awesome_config .. "/icons/media-previous.png"
 
 -- There are other variable sets
 -- overriding the default one when

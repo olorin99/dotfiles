@@ -5,6 +5,7 @@ local dpi = beautiful.xresources.apply_dpi
 local utils = require("utils")
 local gears = require("gears")
 
+local media_controller = require("ui.widgets.media_control")
 local battery = require("ui.widgets.battery")
 local brightness = require("ui.widgets.brightness")
 local volume = require("ui.widgets.volume")
@@ -36,6 +37,10 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.vertical
         }),
         panel_section(wibox.widget {
+            media_controller({ width = dpi(200) }),
+            layout = wibox.layout.fixed.vertical
+        }),
+        panel_section(wibox.widget {
             brightness({ height = dpi(25), width = dpi(200) }),
             volume({ height = dpi(25), width = dpi(200) }),
             spacing = dpi(10),
@@ -51,9 +56,7 @@ awful.screen.connect_for_each_screen(function(s)
             button(dpi(50), { bg = beautiful.colours.maroon }, function()
                 awful.spawn("shutdown now")
             end),
-            button(dpi(50), { bg = beautiful.colours.blue }, function()
-                awesome.quit
-            end),
+            button(dpi(50), { bg = beautiful.colours.blue }, awesome.quit),
             layout = wibox.layout.flex.horizontal
         }),
         spacing = dpi(20),

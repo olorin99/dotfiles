@@ -7,10 +7,7 @@ local dpi = beautiful.xresources.apply_dpi
 local utils = require("utils")
 
 local battery = require("ui.widgets.battery")
-local brightness = require("ui.widgets.brightness")
 local button = require("ui.widgets.button")
-local volume = require("ui.widgets.volume")
-local clock = require("ui.widgets.clock")
 
 local tasklist_buttons = gears.table.join(
     awful.button({}, 1, function(c)
@@ -36,22 +33,50 @@ local tasklist_buttons = gears.table.join(
 )
 
 function create_icon(args)
-
-    local c = args.client or "invalid"
+    
+    local class = args.class or "invalid"
     local cmd = args.cmd or function () end
 
     local icon = wibox.widget {
         {
-            id = "icon_role",
-            text = c,
-            widget = wibox.widget.textbox
+            valign = "center",
+            halign = "center",
+            image = args.icon,
+            widget = wibox.widget.imagebox
         },
         forced_width = dpi(48),
         forced_height = dpi(48),
+        bg = "#00000000",
         widget = wibox.container.background
     }
+    --TODO: focus indicator, tooltip
+
+    icon:buttons(gears.table.join(
+        awful.button({ }, 1, cmd), --TODO: focus or create new
+        awful.button({ }, 2, cmd),
+        awful.button({ }, 3, cmd) --TODO: show preview
+    ))
+
+    icon:connect_signal("mouse::enter", function()
+        icon.bg = beautiful.colours.overlay1
+    end)
+
+    icon:connect_signal("mouse::leave", function()
+        icon.bg = "#00000000"
+    end)
 
     return icon
+end
+
+function create_pinned(args)
+    pinned = wibox.widget {
+        layout = wibox.layout.fixed.horizontal
+    }
+
+    for _, p in ipairs(args.pinned_apps) do
+        pinned:add(create_icon(p))
+    end
+    return pinned
 end
 
 awful.screen.connect_for_each_screen(function(s)
@@ -102,9 +127,14 @@ awful.screen.connect_for_each_screen(function(s)
     
     local dock = wibox.widget {
         {
-            battery(dpi(48), "north", true),
-            brightness({ width = dpi(48) }),
-            volume({ width = dpi(48)}),
+            create_pinned({ pinned_apps = user.pinned_apps }),
+            {              
+                orientation = "vertical",
+                forced_height = dpi(48),
+                forced_width = dpi(3),
+                thickness = dpi(1),
+                widget = wibox.widget.separator
+            },
             tasklist,
             spacing = dpi(10),
             layout = wibox.layout.fixed.horizontal
