@@ -44,8 +44,8 @@ awful.screen.connect_for_each_screen(function(s)
         {
             --left
             {
-                button(dpi(30), { bg = beautiful.panel1, shape = utils.rrect(dpi(15)) }, function()
-                    awful.layout.inc(1)
+                button(dpi(30), { bg = beautiful.panel1, shape = utils.rrect(dpi(15)), icon = beautiful.layout_floating }, function(self)
+                    awful.layout.inc(1) --TODO: make so icon rotates between layouts
                 end),
                 margins = dpi(2),
                 widget = wibox.container.margin
@@ -61,7 +61,7 @@ awful.screen.connect_for_each_screen(function(s)
                     awful.spawn("rofi -show drun")
                 end),
                 button(dpi(30), { bg = beautiful.colours.blue, shape = utils.rrect(dpi(15)) }, function()
-                    awesome.emit_signal("signals::sidepanel")
+                    awesome.emit_signal("signals::sidepanel", s)
                 end),
                 spacing = dpi(5),
                 layout = wibox.layout.fixed.horizontal

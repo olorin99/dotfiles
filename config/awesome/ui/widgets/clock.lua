@@ -9,6 +9,8 @@ return function(size, args)
     local colour = args.colour or "#000000"
 
     local clock = wibox.widget {
+        valign = "center",
+        align = "center",
         format = utils.coloured_text("%I:%M", colour),
         font = beautiful.font_var .. " " .. tostring(size),
         widget = wibox.widget.textclock

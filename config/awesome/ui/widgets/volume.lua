@@ -23,7 +23,7 @@ return function(args)
         bar_border_width = beautiful.border_width,
         bar_border_color = beautiful.border_color,
         handle_color = colour,
-        handle_shape = utils.rrect(dpi(4)),
+        handle_shape = gears.shape.circle,--utils.rrect(dpi(4)),
         handle_width = height - beautiful.border_width,
         forced_width = width,
         forced_height = height,
@@ -35,7 +35,19 @@ return function(args)
 
     local volume = wibox.widget {
         {
-            volume_slider,
+            {
+                {
+                    forced_height = height,
+                    forced_width = height,
+                    valign = "center",
+                    halign = "center",
+                    image = beautiful.volume_icon,
+                    widget = wibox.widget.imagebox
+                },
+                volume_slider,
+                spacing = dpi(5),
+                layout = wibox.layout.fixed.horizontal
+            },
             direction = orientation,
             widget = wibox.container.rotate
         },

@@ -21,7 +21,7 @@ return function(args)
         bar_border_width = beautiful.border_width,
         bar_border_color = beautiful.border_color,
         handle_color = colour,
-        handle_shape = utils.rrect(dpi(4)),
+        handle_shape = gears.shape.circle,--utils.rrect(dpi(4)),
         handle_width = height - beautiful.border_width,
         forced_width = width,
         forced_height = height,
@@ -33,7 +33,19 @@ return function(args)
 
     local brightness = wibox.widget {
         {
-            brightness_slider,
+            {
+                {
+                    forced_height = height,
+                    forced_width = height,
+                    valign = "center",
+                    halign = "center",
+                    image = beautiful.brightness_icon,
+                    widget = wibox.widget.imagebox
+                },
+                brightness_slider,
+                spacing = dpi(5),
+                layout = wibox.layout.fixed.horizontal
+            },
             direction = orientation,
             widget = wibox.container.rotate
         },
@@ -47,7 +59,7 @@ return function(args)
     brightness_slider:connect_signal("button::press", function()
         button_hold = true
     end)
-
+    
     brightness_slider:connect_signal("mouse::leave", function()
         if not button_hold then
             return

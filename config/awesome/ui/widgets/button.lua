@@ -7,19 +7,37 @@ local dpi = beautiful.xresources.apply_dpi
 
 local naughty = require("naughty")
 
+function button_helper(args)
+    if args.icon then
+        return wibox.widget {
+            id = "here_icon_is",
+            valign = "center",
+            halign = "center",
+            image = args.icon,
+            widget = wibox.widget.imagebox
+        }
+    else
+        return wibox.widget {
+            id = "text_role",
+            valign = "center",
+            align = "center",
+            text = args.text,
+            widget = wibox.widget.textbox
+        }
+    end
+end
+
+
 return function(size, args, func)
     local c = args.client or nil
     local bg = args.bg or "#00ff00"
     local hover = args.hover or args.bg .. "be" or "#ff0000"
     local margins = args.margins or dpi(5)
     local shape = args.shape or gears.shape.circle
-
-    local text = wibox.widget {
-        widget = wibox.widget.textbox
-    }
+    args.text = args.text or ""
 
     local button = wibox.widget {
-        text,
+        button_helper(args),
         forced_height = size,
         forced_width = size,
         bg = bg,
@@ -30,7 +48,7 @@ return function(size, args, func)
     button:buttons(gears.table.join(
         awful.button({ }, 1, function()
             if func then
-                func(c)
+                func(button, c)
             end
         end)
     ))

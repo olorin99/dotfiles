@@ -72,6 +72,10 @@ theme.success = colours.green
 theme.warning = colours.peach
 theme.error = colours.maroon
 
+theme.brightness_icon = user.awesome_config .. "/icons/display-brightness.png"
+theme.volume_icon = user.awesome_config .. "/icons/audio-volume-high.png"
+
+
 -- There are other variable sets
 -- overriding the default one when
 -- defined, the sets are:
@@ -139,7 +143,7 @@ theme.titlebar_maximized_button_focus_inactive  = themes_path.."default/titlebar
 theme.titlebar_maximized_button_normal_active = themes_path.."default/titlebar/maximized_normal_active.png"
 theme.titlebar_maximized_button_focus_active  = themes_path.."default/titlebar/maximized_focus_active.png"
 
-theme.wallpaper = "/home/christian/Pictures/Wallpapers/_DSC0941.jpg"
+theme.wallpaper = user.home .. "/Pictures/Wallpapers/_DSC0941.jpg"
 
 -- You can use your own layout icons like this:
 theme.layout_fairh = themes_path.."default/layouts/fairhw.png"

@@ -36,14 +36,14 @@ client.connect_signal("request::titlebars", function (c)
         },
         {
             {
-                button(dpi(15), { bg = beautiful.colours.blue, margins = dpi(0), client = c }, function(c)
+                button(dpi(15), { bg = beautiful.colours.blue, margins = dpi(0), client = c }, function(self, c)
                     c.minimized = true
                 end),
-                button(dpi(15), { bg = beautiful.colours.green, margins = dpi(0), client = c }, function(c)
+                button(dpi(15), { bg = beautiful.colours.green, margins = dpi(0), client = c }, function(self, c)
                     c.maximized = not c.maximized
                     c:raise()
                 end),
-                button(dpi(15), { bg = beautiful.colours.maroon, margins = dpi(0), client = c }, function(c)
+                button(dpi(15), { bg = beautiful.colours.maroon, margins = dpi(0), client = c }, function(self, c)
                     c:kill()
                 end),
                 layout = wibox.layout.fixed.horizontal,
