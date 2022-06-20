@@ -21,14 +21,14 @@ function button_helper(args)
             id = "text_role",
             valign = "center",
             align = "center",
-            text = args.text,
+            markup = args.text,
             widget = wibox.widget.textbox
         }
     end
 end
 
 
-return function(size, args, func)
+return function(size, args, left, right)
     local c = args.client or nil
     local bg = args.bg or "#00ff00"
     local hover = args.hover or args.bg .. "be" or "#ff0000"
@@ -47,8 +47,13 @@ return function(size, args, func)
 
     button:buttons(gears.table.join(
         awful.button({ }, 1, function()
-            if func then
-                func(button, c)
+            if left then
+                left(button, c)
+            end
+        end),
+        awful.button({ }, 3, function()
+            if right then
+                right(button, c)
             end
         end)
     ))

@@ -35,7 +35,10 @@ do
 end
 -- }}}
 
+local utils = require("utils")
+
 user = {
+    user = os.getenv("USER"),
     home = os.getenv("HOME"),
     terminal = "alacritty",
     editor = os.getenv("EDITOR") or "vim",
@@ -45,9 +48,10 @@ user = {
 
 user.awesome_config = user.home .. "/.config/awesome"
 
+
 local pinned_apps = {
     { class = "chrome", icon = user.home .. "/.local/share/icons/Tela-dark/scalable@3x/apps/google-chrome.svg", cmd = function() awful.spawn("/usr/bin/google-chrome-stable %U") end },
-    { class = "nautilus", icon = user.home .. "/.local/share/icons/Tela-dark/scalable@3x/apps/nautilus.svg", cmd = function() awful.spawn("nautilus --new-window") end },
+    { class = "thunar", icon = user.home .. "/.local/share/icons/Tela-dark/scalable@3x/apps/nautilus.svg", cmd = function() awful.spawn("thunar") end },
     { class = "ncmpcpp", icon = user.home .. "/.local/share/icons/Tela-dark/scalable@3x/apps/music_icon-24.svg", cmd = function() awful.spawn("alacritty --class=music,music -e ncmpcpp") end }
 }
 
@@ -58,8 +62,13 @@ beautiful.init(user.awesome_config .. "/theme/" .. user.theme .. ".lua")
 
 require("signals")
 local keys = require("keys")
+
+local entry = utils.desktop_entry(user.home .. "/.local/share/applications/jetbrains-clion.desktop")
+
+table.insert(user.pinned_apps, entry)
+
+
 require("ui")
-local utils = require("utils")
 
 local bling = require("modules.bling")
 bling.widget.window_switcher.enable {
@@ -127,7 +136,7 @@ end)
 
 -- {{{ Mouse bindings
 root.buttons(gears.table.join(
-    awful.button({ }, 3, function () mymainmenu:toggle() end),
+    --awful.button({ }, 3, function () mymainmenu:toggle() end),
     awful.button({ }, 4, awful.tag.viewnext),
     awful.button({ }, 5, awful.tag.viewprev)
 ))
@@ -217,7 +226,7 @@ client.connect_signal("property::fullscreen", function(c)
     if c.fullscreen then
         c.shape = nil
     else
-        c.shape = utils.rrect(beautiful.xresources.apply_dpi(15))
+        c.shape = utils.rrect(beautiful.rounded_corners)
     end
 end)
 
@@ -225,7 +234,7 @@ client.connect_signal("property::maximized", function(c)
     if c.maximized then
         c.shape = gears.shape.rectangle
     else
-        c.shape = utils.rrect(beautiful.xresources.apply_dpi(15))
+        c.shape = utils.rrect(beautiful.rounded_corners)
     end
 end)
 

@@ -5,6 +5,7 @@ local dpi = beautiful.xresources.apply_dpi
 local utils = require("utils")
 local gears = require("gears")
 
+local control_centre = require("ui.widgets.control_centre")
 local media_controller = require("ui.widgets.media_control")
 local battery = require("ui.widgets.battery")
 local brightness = require("ui.widgets.brightness")
@@ -32,7 +33,18 @@ awful.screen.connect_for_each_screen(function(s)
     local sidepanel = wibox.widget {
         panel_section(wibox.widget {
             clock(50, { colour = beautiful.fg_focus }),
-            battery(dpi(50), "north", true),
+            {
+                {
+                    markup = utils.coloured_text(user.user, beautiful.fg_focus),
+                    font = beautiful.font_var .. " 20",
+                    align = "center",
+                    valign = "center",
+                    widget = wibox.widget.textbox
+                },
+                battery(dpi(50), "north", true),
+                layout = wibox.layout.align.horizontal
+            },
+            control_centre(),
             spacing = dpi(10),
             layout = wibox.layout.fixed.vertical
         }),
@@ -47,8 +59,8 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.vertical
         }),
         panel_section(wibox.widget {
-            cpu(dpi(50)),
-            ram(dpi(50)),
+            cpu(dpi(100)),
+            ram(dpi(100)),
             spacing = dpi(10),
             layout = wibox.layout.flex.horizontal
         }),

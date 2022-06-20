@@ -136,7 +136,7 @@ for i = 1, 9 do
         awful.key({ modKey, "Control", "Shift" }, "#" .. i + 9,
                 function()
                     if client.focus then
-                        local tag = client.focus.screen.tag[i]
+                        local tag = client.focus.screen.tags[i]
                         if tag then
                             client.focus:toggle_tag(tag)
                         end
@@ -184,7 +184,12 @@ local client_keys = gears.table.join(
                 function(c)
                     utils.snap(c, "bottom")
                 end,
-                { description = "snap to bottom", group = "client" })
+                { description = "snap to bottom", group = "client" }),
+    awful.key({ }, "F11",
+                function(c)
+                    c.fullscreen = not c.fullscreen
+                    c:raise()
+                end)
 )
 
 local client_buttons = gears.table.join(

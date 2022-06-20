@@ -47,6 +47,7 @@ function create_icon(args)
         forced_width = dpi(48),
         forced_height = dpi(48),
         bg = "#00000000",
+        shape = utils.rrect(dpi(2)),
         widget = wibox.container.background
     }
     --TODO: focus indicator, tooltip

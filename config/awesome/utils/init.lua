@@ -1,6 +1,8 @@
 local awful = require("awful")
 local gears = require("gears")
 
+local naughty = require("naughty")
+
 local utils = {}
 
 utils.coloured_text = function(text, colour)
@@ -17,6 +19,24 @@ utils.prrect = function(radius, tl, tr, br, bl)
     return function(cr, width, height)
         gears.shape.partially_rounded_rect(cr, width, height, tl, tr, br, bl, radius)
     end
+end
+
+utils.desktop_entry = function(path)
+    local cmd = ""
+    local icon = ""
+
+    for line in io.lines(path) do
+        local a, b = line:find("Exec=")
+        if b ~= nil then
+            cmd = string.sub(line, b + 1)
+        end
+        local c, d = line:find("Icon=")
+        if d ~= nil then
+            icon = string.sub(line, d + 1)
+        end
+    end
+
+    return { class = "", icon = icon, cmd = function() awful.spawn(cmd) end }
 end
 
 utils.snap = function(c, edge, geometry)
