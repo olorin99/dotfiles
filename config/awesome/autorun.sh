@@ -15,3 +15,4 @@ run() {
 
 run "picom"
 run "mpDris2"
+touchegg &

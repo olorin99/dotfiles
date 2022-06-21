@@ -24,3 +24,7 @@ awful.spawn.easy_async_with_shell("ps x | grep \"pactl subscribe\" | grep -v gre
         end
     })
 end)
+
+awesome.connect_signal("signals::mute", function()
+    awful.spawn("amixer set Master 1+ toggle")
+end)
