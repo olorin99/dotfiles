@@ -4,6 +4,7 @@ local beautiful = require("beautiful")
 local dpi = beautiful.xresources.apply_dpi
 local utils = require("utils")
 local gears = require("gears")
+local icon = require("ui.widgets.icon")
 
 return function(size, args, left, right)
 
@@ -15,10 +16,14 @@ return function(size, args, left, right)
 
     local toggle = wibox.widget {
         {
-            markup = text,
-            valign = "center",
-            align = "center",
-            widget = wibox.widget.textbox
+            args.icon and icon({ icon = args.icon, size = args.icon_size or size / 2 }) or nil,
+            {
+                markup = text,
+                valign = "center",
+                align = "center",
+                widget = wibox.widget.textbox
+            },
+            layout = wibox.layout.flex.vertical,
         },
         forced_height = size,
         forced_width = size,

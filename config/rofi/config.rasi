@@ -28,6 +28,7 @@ window {
     border: 3px;
     border-color: @border-col;
     background-color: @bg-col;
+    border-radius: 15px;
 }
 
 mainbox {
@@ -79,7 +80,17 @@ element-icon {
     size: 25px;
 }
 
-element selected {
+element normal.normal {
+    background-color: @bg-col;
+    text-color: @fg-col;
+}
+
+element alternate.normal {
+    background-color: @bg-col;
+    text-color: @fg-col;
+}
+
+element selected.normal {
     background-color:  @selected-col ;
     text-color: @fg-col2  ;
 }

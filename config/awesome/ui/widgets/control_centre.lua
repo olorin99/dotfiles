@@ -6,10 +6,14 @@ local utils = require("utils")
 
 local button = require("ui.widgets.button")
 local toggle = require("ui.widgets.toggle")
+local icon = require("ui.widgets.icon")
 
 local naughty = require("naughty")
 
-local wifi_toggle = toggle(dpi(50), { text = utils.coloured_text("None", "#000000") }, function(self)
+-- toggles
+
+-- wifi toggle
+local wifi_toggle = toggle(dpi(50), { icon = utils.coloured_text(beautiful.wifi_icon, "#000000"), text = utils.coloured_text("None", "#000000") }, function(self)
     if not self:toggle() then
         awful.spawn("nmcli radio wifi off")
     else
@@ -21,25 +25,37 @@ function(self)
 end)
 
 awesome.connect_signal("signals::network", function(status, ssid)
-    wifi_toggle.children[1].markup = utils.coloured_text(ssid, "#000000")
+    wifi_toggle.all_children[3].markup = utils.coloured_text(ssid, "#000000")
     wifi_toggle.status = status
 end)
 
-local sounds_toggle = toggle(dpi(50), { text = utils.coloured_text("Sound", "#000000") }, function()
+-- sound toggle
+local sounds_toggle = toggle(dpi(50), { icon = utils.coloured_text(beautiful.volume_icon, "#000000"), text = utils.coloured_text("Sound", "#000000") }, function()
     awesome.emit_signal("signals::mute")
 end)
 
 awesome.connect_signal("signals::mute", function()
     if not sounds_toggle:toggle() then
-        sounds_toggle.children[1].markup = utils.coloured_text("Mute", "#000000")
+        sounds_toggle.all_children[2].markup = utils.coloured_text(beautiful.volume_icon_off, "#000000")
+        sounds_toggle.all_children[3].markup = utils.coloured_text("Mute", "#000000")
     else
-        sounds_toggle.children[1].markup = utils.coloured_text("Sound", "#000000")
+        sounds_toggle.all_children[2].markup = utils.coloured_text(beautiful.volume_icon, "#000000")
+        sounds_toggle.all_children[3].markup = utils.coloured_text("Sound", "#000000")
+    end
+end)
+
+local bluetooth_toggle = toggle(dpi(50), { icon = utils.coloured_text(beautiful.bluetooth_icon, "#000000"), text = utils.coloured_text("Bluetooth", "#000000") }, function(self)
+    if not self:toggle() then
+        awful.spawn("bluetoothctl power off")
+    else
+        awful.spawn("bluetoothctl power on")
     end
 end)
 
 local toggles = wibox.widget {
     wifi_toggle,
     sounds_toggle,
+    bluetooth_toggle,
     spacing = dpi(5),
     forced_num_cols = 2,
     homogeneous = true,
@@ -47,6 +63,7 @@ local toggles = wibox.widget {
     layout = wibox.layout.grid
 }
 
+-- submenus
 
 local available_networks = wibox.widget {
     visible = false,
