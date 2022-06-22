@@ -5,7 +5,6 @@ local dpi = beautiful.xresources.apply_dpi
 local utils = require("utils")
 local playerctl = require("modules.bling").signal.playerctl.cli()
 local button = require("ui.widgets.button")
-
 local gears = require("gears")
 
 return function(args)
@@ -16,7 +15,7 @@ return function(args)
         button(button_width, { bg = "#00000000", icon = beautiful.media_previous_icon }, function()
             playerctl:previous(args.player)
         end),
-        button(button_width, { bg = "#00000000", shape = gears.shape.rectangle, icon = beautiful.media_play_pause_icon }, function()
+        button(button_width, { bg = "#00000000", shape = gears.shape.rectangle, icon = beautiful.media_play_icon }, function()
             playerctl:play_pause(args.player)
         end),
         button(button_width, { bg = "#00000000", icon = beautiful.media_next_icon }, function()

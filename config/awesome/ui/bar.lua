@@ -18,7 +18,7 @@ local taglist_buttons = gears.table.join(
 awful.screen.connect_for_each_screen(function(s)
     local taglist = awful.widget.taglist {
         screen = s,
-        filter = awful.widget.taglist.filter.all,
+        filter = awful.widget.taglist.filter.noempty,
         buttons = taglist_buttons,
         widget_template = {
             {
@@ -44,7 +44,7 @@ awful.screen.connect_for_each_screen(function(s)
         {
             --left
             {
-                button(dpi(30), { bg = beautiful.panel1, shape = utils.rrect(dpi(15)), icon = beautiful.layout_icons[1] }, function(self)
+                button(dpi(30), { bg = beautiful.panel1, shape = utils.rrect(dpi(15)), image = beautiful.layout_icons[1] }, function(self)
                     awful.layout.inc(1)
 
                     local tag = s.selected_tag
@@ -60,10 +60,10 @@ awful.screen.connect_for_each_screen(function(s)
             {
                 battery(dpi(30), "north", true),
                 clock(15, { colour = beautiful.fg_focus }),
-                button(dpi(30), { bg = beautiful.colours.green, shape = utils.rrect(dpi(15)) }, function()
+                button(dpi(30), { text = utils.coloured_text(beautiful.search_icon, "#000000"), bg = beautiful.colours.green, shape = utils.rrect(dpi(15)) }, function()
                     awful.spawn("rofi -show drun")
                 end),
-                button(dpi(30), { bg = beautiful.colours.blue, shape = utils.rrect(dpi(15)) }, function()
+                button(dpi(30), { text = utils.coloured_text(beautiful.home_icon, "#000000"), bg = beautiful.colours.blue, shape = utils.rrect(dpi(15)) }, function()
                     awesome.emit_signal("signals::sidepanel", s)
                 end),
                 spacing = dpi(5),

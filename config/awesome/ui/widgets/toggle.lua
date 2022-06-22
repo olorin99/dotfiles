@@ -41,6 +41,16 @@ return function(size, args, left, right)
         end)
     ))
 
+    toggle.toggle = function(self)
+        self.state = not self.state
+        self:emit_signal("change::state")
+        return self.state
+    end
+
+    toggle:connect_signal("change::state", function()
+        toggle.bg = toggle.state and bg_enabled or bg_disabled
+    end)
+
     toggle:connect_signal("mouse::enter", function()
         toggle.bg = toggle.state and bg_enabled .. "be" or bg_disabled .. "be"
     end)

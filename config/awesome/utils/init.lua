@@ -5,6 +5,14 @@ local naughty = require("naughty")
 
 local utils = {}
 
+utils.utf8 = function(codepoint)
+    return utf8.char(tonumber(codepoint, 16))
+end
+
+utils.pixels_to_point = function(pixels)
+    return math.floor(pixels * 0.75)
+end
+
 utils.coloured_text = function(text, colour)
     return "<span foreground=\"" .. colour .. "\">" .. text .. "</span>"
 end

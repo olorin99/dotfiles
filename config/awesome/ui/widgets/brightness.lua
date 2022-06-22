@@ -6,6 +6,8 @@ local dpi = beautiful.xresources.apply_dpi
 
 local gears = require("gears")
 
+local icon = require("ui.widgets.icon")
+
 return function(args)
     local orientation = args.orientation or "north"
     local colour = args.colour or beautiful.colours.rosewater
@@ -34,14 +36,7 @@ return function(args)
     local brightness = wibox.widget {
         {
             {
-                {
-                    forced_height = height,
-                    forced_width = height,
-                    valign = "center",
-                    halign = "center",
-                    image = beautiful.brightness_icon,
-                    widget = wibox.widget.imagebox
-                },
+                icon({ size = height, icon = beautiful.brightness_icon }),
                 brightness_slider,
                 spacing = dpi(5),
                 layout = wibox.layout.fixed.horizontal

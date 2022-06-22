@@ -6,7 +6,7 @@ local utils = require("utils")
 
 local gears = require("gears")
 
-local naughty = require("naughty")
+local icon = require("ui.widgets.icon")
 
 return function(args)
     local orientation = args.orientation or "north"
@@ -36,14 +36,7 @@ return function(args)
     local volume = wibox.widget {
         {
             {
-                {
-                    forced_height = height,
-                    forced_width = height,
-                    valign = "center",
-                    halign = "center",
-                    image = beautiful.volume_icon,
-                    widget = wibox.widget.imagebox
-                },
+                icon({ size = height, icon = beautiful.volume_icon }),
                 volume_slider,
                 spacing = dpi(5),
                 layout = wibox.layout.fixed.horizontal

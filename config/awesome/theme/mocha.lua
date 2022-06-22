@@ -9,6 +9,8 @@ local dpi = xresources.apply_dpi
 local gfs = require("gears.filesystem")
 local themes_path = gfs.get_themes_dir()
 
+local utils = require("utils")
+
 local colours = {
     rosewater = "#f5e0dc",
     flamingo = "#f2cdcd",
@@ -72,12 +74,32 @@ theme.success = colours.green
 theme.warning = colours.peach
 theme.error = colours.maroon
 
-theme.brightness_icon = user.awesome_config .. "/icons/display-brightness.png"
-theme.volume_icon = user.awesome_config .. "/icons/audio-volume-high.png"
-theme.media_play_pause_icon = user.awesome_config ..
-"/icons/media-play-pause.png"
-theme.media_next_icon = user.awesome_config .. "/icons/media-next.png"
-theme.media_previous_icon = user.awesome_config .. "/icons/media-previous.png"
+-- icons
+theme.icon_font_var = "Material Icons, Regular"
+theme.icon_font = theme.icon_font_var .. " 8"
+
+theme.search_icon = utils.utf8("e8b6")
+theme.home_icon = utils.utf8("e88a")
+
+-- device icons
+theme.wifi_icon = utils.utf8("e1d8")
+theme.wifi_icon_1 = utils.utf8("ebe4")
+theme.wifi_icon_2 = utils.utf8("ebd6")
+theme.wifi_icon_3 = utils.utf8("ebe1")
+theme.wifi_icon_4 = utils.utf8("e1d8")
+theme.bluetooth_icon = utils.utf8("e1a7")
+
+theme.brightness_icon = utils.utf8("e1ac")
+
+theme.volume_icon = utils.utf8("e050")
+theme.volume_icon_off = utils.utf8("e04f")
+
+-- media icons
+theme.media_play_icon = utils.utf8("e037")
+theme.media_pause_icon = utils.utf8("e034")
+theme.media_next_icon = utils.utf8("e044")
+theme.media_previous_icon = utils.utf8("e045")
+
 
 -- ensure is same order as awful.layout.layouts
 theme.layout_icons = {

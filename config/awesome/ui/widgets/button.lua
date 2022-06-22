@@ -4,24 +4,26 @@ local gears = require("gears")
 local beautiful = require("beautiful")
 local utils = require("utils")
 local dpi = beautiful.xresources.apply_dpi
-
-local naughty = require("naughty")
+local icon = require("ui.widgets.icon")
 
 function button_helper(args)
-    if args.icon then
+    if args.image then
         return wibox.widget {
             id = "here_icon_is",
             valign = "center",
             halign = "center",
-            image = args.icon,
+            image = args.image,
             widget = wibox.widget.imagebox
         }
+    elseif args.icon then
+        return icon({ icon = args.icon, size = args.icon_size })
     else
         return wibox.widget {
             id = "text_role",
             valign = "center",
             align = "center",
             markup = args.text,
+            font = args.font,
             widget = wibox.widget.textbox
         }
     end
@@ -35,6 +37,8 @@ return function(size, args, left, right)
     local margins = args.margins or dpi(5)
     local shape = args.shape or gears.shape.circle
     args.text = args.text or ""
+    args.font = args.font or beautiful.font
+    args.icon_size = size
 
     local button = wibox.widget {
         button_helper(args),
