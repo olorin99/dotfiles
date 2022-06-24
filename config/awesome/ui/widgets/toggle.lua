@@ -6,25 +6,16 @@ local utils = require("utils")
 local gears = require("gears")
 local icon = require("ui.widgets.icon")
 
-return function(size, args, left, right)
-
+return function(args, left, right)
+    local size = args.size or dpi(30)
     local enabled = args.start or true
     local bg_enabled = args.enabled or beautiful.colours.blue
     local bg_disabled = args.disabled or beautiful.panel1
     local shape = args.shape or utils.rrect(dpi(8))
-    local text = args.text or ""
+    local child = args.child or nil
 
     local toggle = wibox.widget {
-        {
-            args.icon and icon({ icon = args.icon, size = args.icon_size or size / 2 }) or nil,
-            {
-                markup = text,
-                valign = "center",
-                align = "center",
-                widget = wibox.widget.textbox
-            },
-            layout = wibox.layout.flex.vertical,
-        },
+        child,
         forced_height = size,
         forced_width = size,
         bg = enabled and bg_enabled or bg_disabled,

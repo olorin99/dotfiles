@@ -66,7 +66,7 @@ local keys = require("keys")
 local entry = utils.desktop_entry(user.home .. "/.local/share/applications/jetbrains-clion.desktop")
 
 table.insert(user.pinned_apps, entry)
-
+table.insert(user.pinned_apps, utils.desktop_entry(user.home .. "/.local/share/applications/chrome-eilembjdkfgodjkcjnpgpaenohkicgjd-Default.desktop"))
 
 require("ui")
 

@@ -93,6 +93,7 @@ theme.brightness_icon = utils.utf8("e1ac")
 
 theme.volume_icon = utils.utf8("e050")
 theme.volume_icon_off = utils.utf8("e04f")
+theme.screenshot_icon = utils.utf8("e1bc")
 
 -- media icons
 theme.media_play_icon = utils.utf8("e037")

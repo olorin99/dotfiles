@@ -8,7 +8,7 @@ local playerctl = require("modules.bling").signal.playerctl.cli()
 local button = require("ui.widgets.button")
 local naughty = require("naughty")
 
-local media_controller = require("ui.widgets.media_control")
+local media_controller = require("ui.components.media_controller")
 
 local album_art = wibox.widget {
     --clip_shape = utils.rrect(dpi(15)),

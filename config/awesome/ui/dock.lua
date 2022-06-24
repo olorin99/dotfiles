@@ -6,7 +6,7 @@ local beautiful = require("beautiful")
 local dpi = beautiful.xresources.apply_dpi
 local utils = require("utils")
 
-local battery = require("ui.widgets.battery")
+local battery = require("ui.components.battery")
 local button = require("ui.widgets.button")
 
 local tasklist_buttons = gears.table.join(

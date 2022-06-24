@@ -5,15 +5,15 @@ local dpi = beautiful.xresources.apply_dpi
 local utils = require("utils")
 local gears = require("gears")
 
-local control_centre = require("ui.widgets.control_centre")
-local media_controller = require("ui.widgets.media_control")
-local battery = require("ui.widgets.battery")
-local brightness = require("ui.widgets.brightness")
-local volume = require("ui.widgets.volume")
-local clock = require("ui.widgets.clock")
+local control_centre = require("ui.components.control_centre")
+local media_controller = require("ui.components.media_controller")
+local battery = require("ui.components.battery")
+local brightness = require("ui.components.brightness")
+local volume = require("ui.components.volume")
+local clock = require("ui.components.clock")
 local button = require("ui.widgets.button")
-local cpu = require("ui.widgets.cpu")
-local ram = require("ui.widgets.ram")
+local cpu = require("ui.components.cpu")
+local ram = require("ui.components.ram")
 
 function panel_section(widgets)
     return wibox.widget {
@@ -65,13 +65,13 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.flex.horizontal
         }),
         panel_section(wibox.widget {
-            button(dpi(50), { bg = beautiful.colours.maroon }, function()
+            button({ size = dpi(50), bg = beautiful.colours.maroon }, function()
                 awful.spawn("shutdown now")
             end),
-            button(dpi(50), { bg = beautiful.colours.green }, function()
+            button({ size = dpi(50), bg = beautiful.colours.green }, function()
                 awful.spawn("systemctl reboot")
             end),
-            button(dpi(50), { bg = beautiful.colours.blue }, function() awesome.quit() end),
+            button({ size = dpi(50), bg = beautiful.colours.blue }, function() awesome.quit() end),
             layout = wibox.layout.flex.horizontal
         }),
         spacing = dpi(20),
