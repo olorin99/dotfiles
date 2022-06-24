@@ -6,6 +6,8 @@ local beautiful = require("beautiful")
 local dpi = beautiful.xresources.apply_dpi
 local utils = require("utils")
 
+local rubato = require("modules.rubato")
+
 local battery = require("ui.components.battery")
 local button = require("ui.widgets.button")
 
@@ -168,11 +170,33 @@ awful.screen.connect_for_each_screen(function(s)
     }
     awful.placement.bottom(s.dock_trigger)
 
+    local y = s.geometry.height
+    local ya = s.geometry.height - dpi(68)
+    local animation = rubato.timed {
+        intro = 0.1,
+        outro = 0.1,
+        duration = 0.3,
+        pos = ya,
+        rate = 60,
+        easing = rubato.quadratic,
+        subscribed = function(pos)
+            s.dock.y = pos
+        end
+    }
+
     local hide_timeout = gears.timer({
         timeout = 5,
         single_shot = true,
         callback = function()
-            s.dock.visible = false
+            animation.target = y
+            gears.timer {
+                timeout = 0.4,
+                call_now = false,
+                single_shot = true,
+                callback = function()
+                    s.dock.visible = false
+                end
+            }:again()
         end
     })
 
@@ -198,6 +222,7 @@ awful.screen.connect_for_each_screen(function(s)
 
     s.dock_trigger:connect_signal("mouse::enter", function()
         s.dock.visible = true
+        animation.target = ya
         hide_timeout:stop()
     end)
 

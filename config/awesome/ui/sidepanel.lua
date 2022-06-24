@@ -4,7 +4,7 @@ local beautiful = require("beautiful")
 local dpi = beautiful.xresources.apply_dpi
 local utils = require("utils")
 local gears = require("gears")
-
+local rubato = require("modules.rubato")
 local control_centre = require("ui.components.control_centre")
 local media_controller = require("ui.components.media_controller")
 local battery = require("ui.components.battery")
@@ -89,13 +89,43 @@ awful.screen.connect_for_each_screen(function(s)
         widget = sidepanel,
         type = "dock"
     }
+    
+    local x = s.geometry.width
+    local xv = s.geometry.width - dpi(245)
+    local animation = rubato.timed {
+        intro = 0.1,
+        outro = 0.1,
+        duration = 0.3,
+        pos = x,
+        rate = 60,
+        easing = rubato.quadratic,
+        subscribed = function(pos)
+            s.sidepanel.x = pos
+        end
+    }
+
+    local hide_timeout = gears.timer {
+        timeout = 0.4,
+        call_now = false,
+        single_shot = true,
+        callback = function()
+            s.sidepanel.visible = false
+        end
+    }
 
     awesome.connect_signal("signals::sidepanel", function(scr)
         scr.sidepanel.visible = true
+        animation.target = xv
+    end)
+
+    awesome.connect_signal("signals::hide_panels", function(scr)
+        animation.target = x
+        hide_timeout:again()
     end)
 
     s.sidepanel:connect_signal("mouse::leave", function()
-        s.sidepanel.visible = false
+        animation.target = x
+        hide_timeout:again()
     end)
 
 end)

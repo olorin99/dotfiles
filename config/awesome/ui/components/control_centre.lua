@@ -113,7 +113,14 @@ local screenshot_button = button({
                 self.bg = beautiful.colours.blue
             end
         }):again()
-        awful.spawn.with_shell("maim " .. user.home .. "/Pictures/screenshots/$(date +%s).png")
+        --awesome.emit_signal("signals::hide_panels", awful.screen.focused())
+        awful.spawn.easy_async_with_shell("sh -c 'OUT=" .. user.home .. "/Pictures/screenshots/$(date +%s).png && maim $OUT && echo \"$OUT\"'", function(stdout, _, _, exit_code)
+            if not (exit_code == 0) then
+                return
+            end
+
+            naughty.notify{ title = "Screenshot", message = stdout }
+        end)
 end)
 
 local toggles = wibox.widget {
