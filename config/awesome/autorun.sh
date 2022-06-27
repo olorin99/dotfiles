@@ -13,6 +13,6 @@ run() {
 #    mpc pause
 #fi
 
-run "picom"
+run "picom" "--experimental-backends"
 run "mpDris2"
 touchegg &

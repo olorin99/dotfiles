@@ -1,6 +1,6 @@
 require("signals.battery")
 require("signals.brightness")
-require("signals.volume")
+require("signals.audio")
 require("signals.cpu")
 require("signals.ram")
 require("signals.network")

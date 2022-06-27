@@ -78,7 +78,11 @@ awful.screen.connect_for_each_screen(function(s)
         layout = wibox.layout.fixed.vertical
     }
 
-
+--    function sidepanel:before_draw_children(context, cr, width, height)
+--        cr:rectangle(0, 0, self.clip_width, height)
+--        cr:clip()
+--    end
+    
     s.sidepanel = awful.popup{
         screen = s,
         visible = false,
@@ -90,9 +94,9 @@ awful.screen.connect_for_each_screen(function(s)
         type = "dock"
     }
     
-    local x = s.geometry.width
-    local xv = s.geometry.width - dpi(245)
-    local animation = rubato.timed {
+    local x = s.geometry.width + s.geometry.x
+    local xv = s.geometry.width + s.geometry.x - dpi(245)
+    s.animation = rubato.timed {
         intro = 0.1,
         outro = 0.1,
         duration = 0.3,
@@ -101,6 +105,7 @@ awful.screen.connect_for_each_screen(function(s)
         easing = rubato.quadratic,
         subscribed = function(pos)
             s.sidepanel.x = pos
+--            s.sidepanel.widget.clip_width = x - pos
         end
     }
 
@@ -115,16 +120,16 @@ awful.screen.connect_for_each_screen(function(s)
 
     awesome.connect_signal("signals::sidepanel", function(scr)
         scr.sidepanel.visible = true
-        animation.target = xv
+        scr.animation.target = scr.geometry.width + scr.geometry.x - dpi(245)
     end)
 
     awesome.connect_signal("signals::hide_panels", function(scr)
-        animation.target = x
+        scr.animation.target = scr.geometry.width + scr.geometry.x
         hide_timeout:again()
     end)
 
     s.sidepanel:connect_signal("mouse::leave", function()
-        animation.target = x
+        s.animation.target = s.geometry.width + s.geometry.x
         hide_timeout:again()
     end)
 

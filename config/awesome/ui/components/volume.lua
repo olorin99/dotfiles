@@ -67,11 +67,12 @@ return function(args)
             return
         end
 
-        awful.spawn("amixer set Master " .. volume_slider.value .. "%")
+        --awful.spawn("amixer set Master " .. volume_slider.value .. "%")
+        awesome.emit_signal("audio::set", volume_slider.value)
         button_hold = false
     end)
 
-    awesome.connect_signal("signals::volume", function(value)
+    awesome.connect_signal("audio::volume", function(value)
         if button_hold then
             return
         end
