@@ -74,6 +74,18 @@ awesome.connect_signal("audio::toggle", function()
     end
 end)
 
+awesome.connect_signal("audio::mute", function()
+    sounds_toggle.all_children[2].markup = utils.coloured_text(beautiful.volume_icon_off, "#000000")
+    sounds_toggle.all_children[3].markup = utils.coloured_text("Mute", "#000000")
+    if sounds_toggle.state then sounds_toggle:toggle() end
+end)
+
+awesome.connect_signal("audio::unmute", function()
+    sounds_toggle.all_children[2].markup = utils.coloured_text(beautiful.volume_icon, "#000000")
+    sounds_toggle.all_children[3].markup = utils.coloured_text("Sound", "#000000")
+    if not sounds_toggle.state then sounds_toggle:toggle() end
+end)
+
 -- bluetooth toggle
 local bluetooth_toggle = toggle({
     size = dpi(50),
