@@ -7,7 +7,7 @@ local gears = require("gears")
 local button = require("ui.widgets.button")
 local toggle = require("ui.widgets.toggle")
 local icon = require("ui.widgets.icon")
-
+local playerctl = require("modules.bling").signal.playerctl.cli()
 local naughty = require("naughty")
 
 local open_wifi_submenu = function() end
@@ -230,41 +230,94 @@ awesome.connect_signal("signals::network_scan_finished", function(networks)
     end
 end)
 
+local players = wibox.widget {
+    spacing = dpi(5),
+    layout = wibox.layout.fixed.vertical,
+    widget = wibox.container.background
+}
 local sounds_submenu = wibox.widget {
-    button({
-        size = dpi(30),
-        bg = beautiful.colours.blue,
-        shape = utils.rrect(dpi(8)),
-        child = wibox.widget {
-            valign = "center",
-            align = "center",
-            markup = utils.coloured_text("Sound", "#000000"),
-            widget = wibox.widget.textbox
-        }
-    }, function(self)
-        awesome.emit_signal("audio::unmute")
-    end),
-    button({
-        size = dpi(30),
-        bg = beautiful.colours.blue,
-        shape = utils.rrect(dpi(8)),
-        child = wibox.widget {
-            valign = "center",
-            align = "center",
-            markup = utils.coloured_text("Mute", "#000000"),
-            widget = wibox.widget.textbox
-        }
-    }, function(self)
-        awesome.emit_signal("audio::mute")
-    end),
+    {
+        button({
+            size = dpi(30),
+            bg = beautiful.colours.blue,
+            shape = utils.rrect(dpi(8)),
+            child = wibox.widget {
+                valign = "center",
+                align = "center",
+                markup = utils.coloured_text("Sound", "#000000"),
+                widget = wibox.widget.textbox
+            }
+        }, function(self)
+            awesome.emit_signal("audio::unmute")
+        end),
+        button({
+            size = dpi(30),
+            bg = beautiful.colours.blue,
+            shape = utils.rrect(dpi(8)),
+            child = wibox.widget {
+                valign = "center",
+                align = "center",
+                markup = utils.coloured_text("Mute", "#000000"),
+                widget = wibox.widget.textbox
+            }
+        }, function(self)
+            awesome.emit_signal("audio::mute")
+        end),
+        spacing = dpi(5),
+        layout = wibox.layout.flex.horizontal
+    },
+    players,
     visible = false,
     spacing = dpi(5),
-    layout = wibox.layout.flex.horizontal
+    layout = wibox.layout.fixed.vertical
 }
+
 
 open_sounds_submenu = function()
     toggles.visible = false
     sounds_submenu.visible = true
+awful.spawn.easy_async("playerctl -l", function(stdout, _, _, exit_code)
+    if not (exit_code == 0) then
+        return
+    end
+
+    players:reset()
+    for player in stdout:gmatch("([^\r\n]*)[\r\n]") do
+        local vol = wibox.widget {
+            bar_shape = utils.rrect(dpi(8)),
+            bar_height = dpi(10),
+            bar_color = beautiful.panel1,
+            bar_active_color = beautiful.colours.blue,
+            handle_color = beautiful.colours.blue,
+            handle_shape = gears.shape.circle,
+            handle_width = dpi(9),
+            forced_width = dpi(100),
+            forced_height = dpi(10),
+            value = 70,
+            maximum = 100,
+            minimum = 0,
+            widget = wibox.widget.slider
+        }
+
+        vol:connect_signal("property::value", function()
+            playerctl:set_volume(vol.value / 100, player)
+        end)
+
+        
+
+        players:add(wibox.widget {
+            {
+                text = player,
+                widget = wibox.widget.textbox
+            },
+            nil,
+            vol,
+            spacing = dpi(5),
+            layout = wibox.layout.align.horizontal
+        })
+    end
+
+end)
 end
 
 sounds_submenu:connect_signal("mouse::leave", function()

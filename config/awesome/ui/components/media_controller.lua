@@ -96,7 +96,8 @@ return function(args)
                 song_artist,
                 layout = wibox.layout.flex.vertical
             },
-            layout = wibox.layout.flex.horizontal
+            nil,
+            layout = wibox.layout.align.horizontal
         },
         {
             previous,
@@ -104,6 +105,7 @@ return function(args)
             next,
             layout = wibox.layout.flex.horizontal
         },
+        spacing = dpi(3),
         song_position,
         layout = wibox.layout.fixed.vertical
     }

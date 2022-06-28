@@ -19,7 +19,7 @@ function panel_section(widgets)
     return wibox.widget {
         {
             widgets,
-            margins = dpi(10),
+            margins = dpi(20),
             widget = wibox.container.margin
         },
         bg = beautiful.panel,
@@ -29,6 +29,8 @@ function panel_section(widgets)
 end
 
 awful.screen.connect_for_each_screen(function(s)
+
+    local width = dpi(300)
 
     local sidepanel = wibox.widget {
         panel_section(wibox.widget {
@@ -41,6 +43,7 @@ awful.screen.connect_for_each_screen(function(s)
                     valign = "center",
                     widget = wibox.widget.textbox
                 },
+                nil,
                 battery(dpi(50), "north", true),
                 layout = wibox.layout.align.horizontal
             },
@@ -53,8 +56,8 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.vertical
         }),
         panel_section(wibox.widget {
-            brightness({ height = dpi(25), width = dpi(200) }),
-            volume({ height = dpi(25), width = dpi(200) }),
+            brightness({ height = dpi(25), width = width - dpi(20) }),
+            volume({ height = dpi(25), width = width - dpi(20) }),
             spacing = dpi(10),
             layout = wibox.layout.fixed.vertical
         }),
@@ -74,6 +77,7 @@ awful.screen.connect_for_each_screen(function(s)
             button({ size = dpi(50), bg = beautiful.colours.blue }, function() awesome.quit() end),
             layout = wibox.layout.flex.horizontal
         }),
+        forced_width = width,
         spacing = dpi(20),
         layout = wibox.layout.fixed.vertical
     }
@@ -120,7 +124,7 @@ awful.screen.connect_for_each_screen(function(s)
 
     awesome.connect_signal("signals::sidepanel", function(scr)
         scr.sidepanel.visible = true
-        scr.animation.target = scr.geometry.width + scr.geometry.x - dpi(245)
+        scr.animation.target = scr.geometry.width + scr.geometry.x - width
     end)
 
     awesome.connect_signal("signals::hide_panels", function(scr)
