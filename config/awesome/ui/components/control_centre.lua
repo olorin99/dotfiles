@@ -109,7 +109,7 @@ end)
 
 -- screenshot button
 local screenshot_button = button({ 
-    size = dpi(50),
+    width = dpi(50),
     bg = beautiful.colours.blue,
     shape = utils.rrect(dpi(8)),
     child = wibox.widget {
@@ -172,7 +172,7 @@ local available_wifi = wibox.widget {
 
 local wifi_submenu = wibox.widget {
     button({
-        size = dpi(30),
+        width = dpi(30),
         bg = beautiful.colours.blue,
         shape = utils.rrect(dpi(8)),
         child = wibox.widget {
@@ -222,7 +222,7 @@ awesome.connect_signal("signals::network_scan_finished", function(networks)
                 widget = wibox.widget.textbox
             },
             --TODO: textinput widget to get password
-            button({ size = dpi(30), bg = beautiful.colours.blue, shape = utils.rrect(dpi(8)) }, function() 
+            button({ width = dpi(30), bg = beautiful.colours.blue, shape = utils.rrect(dpi(8)) }, function() 
                 awful.spawn("nmcli dev wifi connect " .. network)
             end),
             layout = wibox.layout.fixed.horizontal
@@ -238,7 +238,7 @@ local players = wibox.widget {
 local sounds_submenu = wibox.widget {
     {
         button({
-            size = dpi(30),
+            width = dpi(30),
             bg = beautiful.colours.blue,
             shape = utils.rrect(dpi(8)),
             child = wibox.widget {
@@ -251,7 +251,7 @@ local sounds_submenu = wibox.widget {
             awesome.emit_signal("audio::unmute")
         end),
         button({
-            size = dpi(30),
+            width = dpi(30),
             bg = beautiful.colours.blue,
             shape = utils.rrect(dpi(8)),
             child = wibox.widget {
@@ -328,7 +328,7 @@ end)
 
 local screenshot_submenu = wibox.widget {
     button({
-        size = dpi(30),
+        width = dpi(30),
         bg = beautiful.colours.blue,
         shape = utils.rrect(dpi(8)),
         child = wibox.widget {
@@ -347,7 +347,7 @@ local screenshot_submenu = wibox.widget {
         end)
     end),
     button({
-        size = dpi(30),
+        width = dpi(30),
         bg = beautiful.colours.blue,
         shape = utils.rrect(dpi(8)),
         child = wibox.widget {
@@ -366,7 +366,7 @@ local screenshot_submenu = wibox.widget {
         end)
     end),
     button({
-        size = dpi(30),
+        width = dpi(30),
         bg = beautiful.colours.blue,
         shape = utils.rrect(dpi(8)),
         child = wibox.widget {

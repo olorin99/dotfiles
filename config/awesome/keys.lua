@@ -6,7 +6,8 @@ require("awful.hotkeys_popup.keys")
 local utils = require("utils")
 
 local modKey = "Mod4"
-
+local shift = "Shift"
+local control = "Control"
 
 
 local global_keys = gears.table.join(
@@ -73,19 +74,19 @@ local global_keys = gears.table.join(
     awful.key({ }, "XF86AudioPlay",
                 function() awful.spawn.with_shell("playerctl play-pause") end,
                 { description = "play/pause", group = "media" }),
-    awful.key({ modKey }, "#80",
+    awful.key({ control }, "#80",
                 function() awesome.emit_signal("audio::increment") end,
                 { descritption = "increase volume", group = "media" }),
-    awful.key({ modKey }, "#88",
+    awful.key({ control }, "#88",
                 function() awesome.emit_signal("audio::decrement") end,
                 { description = "decrease volume", group = "media" }),
-    awful.key({ modKey }, "#84",
+    awful.key({ control }, "#84",
                 function() awful.spawn.with_shell("playerctl play-pause") end,
                 { description = "pause/play", group = "media" }),
-    awful.key({ modKey }, "#83",
+    awful.key({ control }, "#83",
                 function() awful.spawn.with_shell("playerctl previous") end,
                 { description = "previous", group = "media" }),
-    awful.key({ modKey }, "#85",
+    awful.key({ control }, "#85",
                 function() awful.spawn.with_shell("playerctl next") end,
                 { description = "next", group = "media" }),
 

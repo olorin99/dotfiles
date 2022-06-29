@@ -12,13 +12,14 @@ return function(args, left, right)
     local hover = args.hover or args.bg .. "be" or "#ff0000"
     local margins = args.margins or dpi(5)
     local shape = args.shape or gears.shape.circle
-    local size = args.size or dpi(10)
+    local width = args.width or dpi(10)
+    local height = args.height or width
     local child = args.child or nil
     
     local button = wibox.widget {
         child,
-        forced_height = size,
-        forced_width = size,
+        forced_height = height,
+        forced_width = width,
         bg = bg,
         shape = shape,
         widget = wibox.container.background

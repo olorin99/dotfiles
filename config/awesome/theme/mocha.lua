@@ -80,6 +80,7 @@ theme.icon_font = theme.icon_font_var .. " 8"
 
 theme.search_icon = utils.utf8("e8b6")
 theme.home_icon = utils.utf8("e88a")
+theme.notification_icon = utils.utf8("e7f4")
 
 -- device icons
 theme.wifi_icon = utils.utf8("e1d8")

@@ -87,7 +87,7 @@ end)]]--
 
 
 local previous = button({
-    size = dpi(60),
+    width = dpi(60),
     bg = "#00000000",
     child = icon {
         icon = beautiful.media_previous_icon,
@@ -99,7 +99,7 @@ function()
 end)
 
 local play_pause = button({
-    size = dpi(60),
+    width = dpi(60),
     bg = "#00000000",
     child = icon {
         icon = beautiful.media_play_icon,
@@ -111,7 +111,7 @@ function()
 end)
 
 local next = button({
-    size = dpi(60),
+    width = dpi(60),
     bg = "#00000000",
     child = icon {
         icon = beautiful.media_next_icon,

@@ -53,7 +53,7 @@ return function(args)
     }
 
     local previous = button({
-        size = button_width,
+        width = button_width,
         bg = "#00000000",
         child = icon{
             icon = beautiful.media_previous_icon,
@@ -65,7 +65,7 @@ return function(args)
     end)
 
     local play_pause = button({
-        size = button_width,
+        width = button_width,
         bg = "#00000000",
         child = icon {
             icon = beautiful.media_play_icon,
@@ -77,7 +77,7 @@ return function(args)
     end)
 
     local next = button({
-        size = button_width,
+        width = button_width,
         bg = "#00000000",
         child = icon {
             icon = beautiful.media_next_icon,

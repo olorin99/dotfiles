@@ -44,7 +44,7 @@ awful.screen.connect_for_each_screen(function(s)
             --left
             {
                 button({ 
-                    size = dpi(30),
+                    width = dpi(30),
                     bg = beautiful.panel1,
                     shape = utils.rrect(dpi(15)),
                     child = wibox.widget {
@@ -71,7 +71,15 @@ awful.screen.connect_for_each_screen(function(s)
                 battery(dpi(30), "north", true),
                 clock(15, { colour = beautiful.fg_focus }),
                 button({
-                    size = dpi(30),
+                    width = dpi(30),
+                    bg = beautiful.colours.green,
+                    shape = utils.rrect(dpi(15)),
+                    child = icon{ icon = beautiful.notification_icon, colour = "#000000", size = dpi(20) }
+                }, function()
+                    awesome.emit_signal("signals::notification_panel", s)
+                end),
+                button({
+                    width = dpi(30),
                     bg = beautiful.colours.green,
                     shape = utils.rrect(dpi(15)),
                     child = icon{ icon = beautiful.search_icon, colour = "#000000", size = dpi(20) }
@@ -79,8 +87,7 @@ awful.screen.connect_for_each_screen(function(s)
                         awful.spawn("rofi -show drun")
                 end),
                 button({
-                    size = dpi(30),
-                    text = utils.coloured_text(beautiful.home_icon, "#000000"),
+                    width = dpi(30),
                     bg = beautiful.colours.blue,
                     shape = utils.rrect(dpi(15)),
                     child = icon{ icon = beautiful.home_icon, colour = "#000000", size = dpi(20) }

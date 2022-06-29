@@ -1,5 +1,6 @@
 require("ui.dock")
 require("ui.bar")
 require("ui.sidepanel")
+require("ui.notification_panel")
 require("ui.decorations")
 require("ui.music")

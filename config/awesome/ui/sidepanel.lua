@@ -15,6 +15,8 @@ local button = require("ui.widgets.button")
 local cpu = require("ui.components.cpu")
 local ram = require("ui.components.ram")
 
+local scrollable = require("ui.widgets.scrollable")
+
 function panel_section(widgets)
     return wibox.widget {
         {
@@ -68,14 +70,22 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.flex.horizontal
         }),
         panel_section(wibox.widget {
-            button({ size = dpi(50), bg = beautiful.colours.maroon }, function()
+            button({ width = dpi(50), bg = beautiful.colours.maroon }, function()
                 awful.spawn("shutdown now")
             end),
-            button({ size = dpi(50), bg = beautiful.colours.green }, function()
+            button({ width = dpi(50), bg = beautiful.colours.green }, function()
                 awful.spawn("systemctl reboot")
             end),
-            button({ size = dpi(50), bg = beautiful.colours.blue }, function() awesome.quit() end),
+            button({ width = dpi(50), bg = beautiful.colours.blue }, function() awesome.quit() end),
             layout = wibox.layout.flex.horizontal
+        }),
+        panel_section(scrollable {
+            width = 100,
+            forced_height = 40,
+            {
+                text = "hello this is some text",
+                widget = wibox.widget.textbox
+            },
         }),
         forced_width = width,
         spacing = dpi(20),
