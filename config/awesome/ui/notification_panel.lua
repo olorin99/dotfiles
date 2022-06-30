@@ -6,6 +6,8 @@ local utils = require("utils")
 local button = require("ui.widgets.button")
 local naughty = require("naughty")
 
+local scrollable = require("ui.widgets.scrollable")
+
 local function write_to_history_file(title, message)
     awful.spawn.with_shell("echo 'title=" .. title .. ",message=" .. message .. ".' >> " .. user.awesome_config .. "/.notification_history")
 end
@@ -13,7 +15,7 @@ end
 
 local history = wibox.widget {
     spacing = dpi(5),
-    layout = wibox.layout.fixed.vertical
+    layout = scrollable.vertical--wibox.layout.fixed.vertical
 }
 
 local function load_history_file()
@@ -38,7 +40,8 @@ local function load_history_file()
                                 text = message,
                                 widget = wibox.widget.textbox
                             },
-                            layout = wibox.layout.fixed.vertical,
+                            spacing = dpi(5),
+                            layout = wibox.layout.align.vertical
                         },
                         margins = dpi(10),
                         widget = wibox.container.margin
@@ -47,7 +50,8 @@ local function load_history_file()
                     shape = utils.rrect(dpi(8)),
                     widget = wibox.container.background
                 }
-                history:add(notif)
+                history:insert(1, notif)
+                --history:add(notif)
             end
         end
     end)
@@ -67,7 +71,8 @@ naughty.connect_signal("added", function(notification)
                     text = notification.message,
                     widget = wibox.widget.textbox
                 },
-                layout = wibox.layout.fixed.vertical,
+                spacing = dpi(5),
+                layout = wibox.layout.align.vertical,
             },
             margins = dpi(10),
             widget = wibox.container.margin
@@ -76,7 +81,8 @@ naughty.connect_signal("added", function(notification)
         shape = utils.rrect(dpi(8)),
         widget = wibox.container.background
     }
-    history:add(notif)
+    history:insert(1, notif)
+    --history:add(notif)
     write_to_history_file(notification.title, notification.message)
     --awful.spawn.with_bash("echo 'title=haha,message=hehe.' >> ~/.config/awesome/.notification_history")
 end)

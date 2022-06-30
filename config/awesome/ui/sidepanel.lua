@@ -34,6 +34,27 @@ awful.screen.connect_for_each_screen(function(s)
 
     local width = dpi(300)
 
+    
+        local scroll = wibox.widget {
+            forced_height = dpi(100),
+            spacing = dpi(5),
+            scrollbar_widget = {
+                shape = utils.rrect(dpi(8)),
+                widget = wibox.widget.separator
+            },
+            scrollbar_width = dpi(10),
+            step = 10,
+            layout = scrollable.vertical
+        }
+
+    
+        for i = 1, 4 do
+        scroll:add(wibox.widget {
+                text = "ajfhakdjfha lkdfjhalk sdfdj hasdlkfrhueal kdjfhal sdfh aksdjfh aksdjfha sdfadbf aldakdfhaksjfha lkdfhalksdfjhaksdfjh alksdfjhalkdfjha slkdfbnaskldfbja lsdkfbja lksjdfb aslkjdfb alksjdfb alksdfbja slkjdfb aslkdfbj aslkdfbja skldfbj asdklfbj aslkdfbja slkdfbj askljdfb askljdfb akjlsdfb alksjdfb alkjbf akjdfab ladfkjb dabjlfka",
+                widget = wibox.widget.textbox
+            })
+            end
+
     local sidepanel = wibox.widget {
         panel_section(wibox.widget {
             clock(50, { colour = beautiful.fg_focus }),
@@ -79,14 +100,7 @@ awful.screen.connect_for_each_screen(function(s)
             button({ width = dpi(50), bg = beautiful.colours.blue }, function() awesome.quit() end),
             layout = wibox.layout.flex.horizontal
         }),
-        panel_section(scrollable {
-            width = 100,
-            forced_height = 40,
-            {
-                text = "hello this is some text",
-                widget = wibox.widget.textbox
-            },
-        }),
+        panel_section(scroll),
         forced_width = width,
         spacing = dpi(20),
         layout = wibox.layout.fixed.vertical
