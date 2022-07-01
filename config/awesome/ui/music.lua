@@ -14,7 +14,6 @@ local album_art = wibox.widget {
     --clip_shape = utils.rrect(dpi(15)),
     forced_height = dpi(80),
     forced_width = dpi(80),
-    bg = "#ffffff",
     image = user.awesome_config .. "/icons/media-playback-start.png",
     widget = wibox.widget.imagebox
 }
@@ -48,8 +47,8 @@ local song_position = wibox.widget {
     value = 70,
     forced_height = dpi(10),
     bar_shape = utils.rrect(dpi(8)),
-    color = beautiful.colours.blue,
-    background_color = beautiful.panel1,
+    color = beautiful.active,
+    background_color = beautiful.inactive,
     widget = wibox.widget.progressbar
 }
 --[[local song_position = wibox.widget {
@@ -125,9 +124,9 @@ end)
 local volume = wibox.widget {
     bar_shape = utils.rrect(dpi(8)),
     bar_height = dpi(10),
-    bar_color = beautiful.panel1,
-    bar_active_color = beautiful.colours.blue,
-    handle_color = beautiful.colours.blue,
+    bar_color = beautiful.inactive,
+    bar_active_color = beautiful.active,
+    handle_color = beautiful.active,
     handle_shape = gears.shape.circle,
     handle_width = dpi(9),
     forced_height = dpi(10),

@@ -39,9 +39,9 @@ return function(args)
     local song_position = wibox.widget {
         bar_shape = utils.rrect(dpi(8)),
         bar_height = dpi(10),
-        bar_color = beautiful.panel1,
-        bar_active_color = beautiful.colours.blue,
-        handle_color = beautiful.colours.blue,
+        bar_color = beautiful.inactive,
+        bar_active_color = beautiful.active,
+        handle_color = beautiful.active,
         handle_shape = gears.shape.circle,
         handle_width = dpi(9),
         forced_width = width / 2,

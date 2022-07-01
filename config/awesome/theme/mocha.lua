@@ -67,6 +67,9 @@ theme.border_marked = "#91231c"
 
 theme.rounded_corners = dpi(15)
 
+theme.active = colours.blue
+theme.inactive = colours.surface2
+
 theme.panel = colours.mantle
 theme.panel1 = colours.surface2
 

@@ -27,7 +27,7 @@ awful.screen.connect_for_each_screen(function(s)
                     valign = "center",
                     widget = wibox.widget.textbox
                 },
-                bg = beautiful.panel1,
+                bg = beautiful.inactive,
                 shape = utils.rrect(dpi(8)),
                 forced_width = dpi(30),
                 forced_height = dpi(30),
@@ -45,7 +45,7 @@ awful.screen.connect_for_each_screen(function(s)
             {
                 button({ 
                     width = dpi(30),
-                    bg = beautiful.panel1,
+                    bg = beautiful.inactive,
                     shape = utils.rrect(dpi(15)),
                     child = wibox.widget {
                         valign = "center",
@@ -72,7 +72,7 @@ awful.screen.connect_for_each_screen(function(s)
                 clock(15, { colour = beautiful.fg_focus }),
                 button({
                     width = dpi(30),
-                    bg = beautiful.colours.green,
+                    bg = beautiful.colours.peach,
                     shape = utils.rrect(dpi(15)),
                     child = icon{ icon = beautiful.notification_icon, colour = "#000000", size = dpi(20) }
                 }, function()

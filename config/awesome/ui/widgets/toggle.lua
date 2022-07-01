@@ -9,8 +9,8 @@ local icon = require("ui.widgets.icon")
 return function(args, left, right)
     local size = args.size or dpi(30)
     local enabled = args.start or true
-    local bg_enabled = args.enabled or beautiful.colours.blue
-    local bg_disabled = args.disabled or beautiful.panel1
+    local bg_enabled = args.enabled or beautiful.active
+    local bg_disabled = args.disabled or beautiful.inactive
     local shape = args.shape or utils.rrect(dpi(8))
     local child = args.child or nil
 

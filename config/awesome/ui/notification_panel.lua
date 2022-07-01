@@ -46,7 +46,7 @@ local function load_history_file()
                         margins = dpi(10),
                         widget = wibox.container.margin
                     },
-                    bg = beautiful.panel1,
+                    bg = beautiful.inactive,
                     shape = utils.rrect(dpi(8)),
                     widget = wibox.container.background
                 }
@@ -77,7 +77,7 @@ naughty.connect_signal("added", function(notification)
             margins = dpi(10),
             widget = wibox.container.margin
         },
-        bg = beautiful.panel1,
+        bg = beautiful.inactive,
         shape = utils.rrect(dpi(8)),
         widget = wibox.container.background
     }
@@ -90,7 +90,7 @@ end)
 awful.screen.connect_for_each_screen(function(s)
     
     local width = dpi(300)
-    local height = s.geometry.height - beautiful.useless_gap * 10
+    local height = s.geometry.height - beautiful.useless_gap * 3 - dpi(30)
 
     local recent = wibox.widget {
         forced_height = height - dpi(30 + 20 + 50 + 40),
@@ -103,7 +103,6 @@ awful.screen.connect_for_each_screen(function(s)
         button({
             width = dpi(100),
             height = dpi(30),
-            bg = beautiful.colours.blue,
             shape = utils.rrect(dpi(8)),
             child = wibox.widget {
                 valign = "center",
@@ -139,7 +138,7 @@ awful.screen.connect_for_each_screen(function(s)
                 margins = dpi(10),
                 widget = wibox.container.margin
             },
-            bg = beautiful.panel1,
+            bg = beautiful.inactive,
             shape = utils.rrect(dpi(8)),
             widget = wibox.container.background
         }
@@ -153,7 +152,6 @@ awful.screen.connect_for_each_screen(function(s)
                     button({
                         width = dpi(80),
                         height = dpi(50),
-                        bg = beautiful.colours.blue,
                         shape = utils.rrect(dpi(8)),
                         child = wibox.widget {
                             valign = "center",
@@ -168,7 +166,6 @@ awful.screen.connect_for_each_screen(function(s)
                     button({
                         width = dpi(80),
                         height = dpi(50),
-                        bg = beautiful.colours.blue,
                         shape = utils.rrect(dpi(8)),
                         child = wibox.widget {
                             valign = "center",
@@ -202,7 +199,17 @@ awful.screen.connect_for_each_screen(function(s)
         visible = false,
         ontop = true,
         bg = "#00000000",
-        placement = awful.placement.right,
+        placement = function(w)
+            awful.placement.right(w, {
+                margins = {
+                    top = dpi(30) + beautiful.useless_gap * 2,
+                    bottom = beautiful.useless_gap,
+                    left = 0,
+                    right = 0
+                }
+            })
+        end,
+        --placement = awful.placement.right,
         widget = notification_panel,
         type = "dock"
     }

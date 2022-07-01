@@ -7,9 +7,10 @@ local dpi = beautiful.xresources.apply_dpi
 local icon = require("ui.widgets.icon")
 
 return function(args, left, right)
+    local args = args or {}
     local c = args.client or nil
-    local bg = args.bg or "#00ff00"
-    local hover = args.hover or args.bg .. "be" or "#ff0000"
+    local bg = args.bg or beautiful.active
+    local hover = args.hover or bg .. "be" or beautiful.inactive
     local margins = args.margins or dpi(5)
     local shape = args.shape or gears.shape.circle
     local width = args.width or dpi(10)

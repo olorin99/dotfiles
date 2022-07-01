@@ -59,7 +59,7 @@ user.pinned_apps = pinned_apps
 
 beautiful.init(user.awesome_config .. "/theme/" .. user.theme .. ".lua")
 
-
+require("daemons")
 require("signals")
 local keys = require("keys")
 
