@@ -82,15 +82,13 @@ naughty.connect_signal("added", function(notification)
         widget = wibox.container.background
     }
     history:insert(1, notif)
-    --history:add(notif)
     write_to_history_file(notification.title, notification.message)
-    --awful.spawn.with_bash("echo 'title=haha,message=hehe.' >> ~/.config/awesome/.notification_history")
 end)
 
 awful.screen.connect_for_each_screen(function(s)
     
-    local width = dpi(300)
-    local height = s.geometry.height - beautiful.useless_gap * 3 - dpi(30)
+    local width = beautiful.side_panel_width
+    local height = s.geometry.height - beautiful.useless_gap * 2 - beautiful.top_bar_height
 
     local recent = wibox.widget {
         forced_height = height - dpi(30 + 20 + 50 + 40),
@@ -202,7 +200,7 @@ awful.screen.connect_for_each_screen(function(s)
         placement = function(w)
             awful.placement.right(w, {
                 margins = {
-                    top = dpi(30) + beautiful.useless_gap * 2,
+                    top = beautiful.top_bar_height + beautiful.useless_gap * 2,
                     bottom = beautiful.useless_gap,
                     left = 0,
                     right = 0

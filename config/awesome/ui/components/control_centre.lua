@@ -299,8 +299,24 @@ return function(args)
                 widget = wibox.widget.slider
             }
     
-            vol:connect_signal("property::value", function()
+            --[[vol:connect_signal("property::value", function()
                 playerctl:set_volume(vol.value / 100, player)
+            end)]]--
+
+            vol:connect_signal("button::press", function()
+                vol.button_held = true
+            end)
+
+            vol:connect_signal("mouse::leave", function()
+                if not vol.button_held then
+                    return
+                end
+                playerctl:set_volume(vol.value / 100, player)
+                vol.button_held = false
+            end)
+
+            playerctl:connect_signal("volume", function(_, value)
+                vol.value = math.floor(value * 100)
             end)
     
             

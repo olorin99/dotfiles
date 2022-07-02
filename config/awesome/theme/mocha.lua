@@ -77,6 +77,10 @@ theme.success = colours.green
 theme.warning = colours.peach
 theme.error = colours.maroon
 
+-- widget sizing
+theme.top_bar_height = dpi(30)
+theme.side_panel_width = dpi(400)
+
 -- icons
 theme.icon_font_var = "Material Icons, Regular"
 theme.icon_font = theme.icon_font_var .. " 8"

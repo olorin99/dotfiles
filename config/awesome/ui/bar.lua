@@ -10,11 +10,17 @@ local button = require("ui.widgets.button")
 local clock = require("ui.components.clock")
 local icon = require("ui.widgets.icon")
 
+local naughty = require("naughty")
+
 local taglist_buttons = gears.table.join(
     awful.button({ }, 1, function(t) t:view_only() end)
 )
 
 awful.screen.connect_for_each_screen(function(s)
+
+    local height = beautiful.top_bar_height
+    local margins = dpi(5)
+
     local taglist = awful.widget.taglist {
         screen = s,
         filter = awful.widget.taglist.filter.noempty,
@@ -29,8 +35,8 @@ awful.screen.connect_for_each_screen(function(s)
                 },
                 bg = beautiful.inactive,
                 shape = utils.rrect(dpi(8)),
-                forced_width = dpi(30),
-                forced_height = dpi(30),
+                forced_width = height,
+                forced_height = height - margins * 2 - dpi(8),
                 widget = wibox.container.background
             },
             margins = dpi(4),
@@ -39,39 +45,42 @@ awful.screen.connect_for_each_screen(function(s)
     }
 
 
+    local layout_switcher = button({ 
+        width = height,
+        height = height - margins * 2,
+        bg = beautiful.inactive,
+        shape = utils.rrect(dpi(15)),
+        child = wibox.widget {
+            valign = "center",
+            halign = "center",
+            image = beautiful.layout_icons[1],
+            widget = wibox.widget.imagebox
+        }
+    },
+    function(self)
+        awful.layout.inc(1)
+    end)
+
+    tag.connect_signal("property::layout", function(t)
+        layout_switcher.children[1].image = beautiful.layout_icons[awful.layout.get_tag_layout_index(t)]
+    end)
+    tag.connect_signal("property::selected", function(t)
+        layout_switcher.children[1].image = beautiful.layout_icons[awful.layout.get_tag_layout_index(t)]
+    end)
+
     local bar = wibox.widget {
         {
             --left
-            {
-                button({ 
-                    width = dpi(30),
-                    bg = beautiful.inactive,
-                    shape = utils.rrect(dpi(15)),
-                    child = wibox.widget {
-                        valign = "center",
-                        halign = "center",
-                        image = beautiful.layout_icons[1],
-                        widget = wibox.widget.imagebox
-                    }
-                    },
-                    function(self)
-                        awful.layout.inc(1)
-
-                        local tag = s.selected_tag
-                        self.children[1].image = beautiful.layout_icons[awful.layout.get_tag_layout_index(tag)]
-                end),
-                margins = dpi(2),
-                widget = wibox.container.margin
-            }
-            ,
+            layout_switcher,
             --mid
             taglist,
             --right
             {
                 battery(dpi(30), "north", true),
-                clock(15, { colour = beautiful.fg_focus }),
+                clock(utils.pixels_to_point(height), { colour = beautiful.fg_focus }),
                 button({
-                    width = dpi(30),
+                    width = height,
+                    height = height - margins * 2,
                     bg = beautiful.colours.peach,
                     shape = utils.rrect(dpi(15)),
                     child = icon{ icon = beautiful.notification_icon, colour = "#000000", size = dpi(20) }
@@ -79,7 +88,8 @@ awful.screen.connect_for_each_screen(function(s)
                     awesome.emit_signal("signals::notification_panel", s)
                 end),
                 button({
-                    width = dpi(30),
+                    width = height,
+                    height = height - margins * 2,
                     bg = beautiful.colours.green,
                     shape = utils.rrect(dpi(15)),
                     child = icon{ icon = beautiful.search_icon, colour = "#000000", size = dpi(20) }
@@ -87,7 +97,8 @@ awful.screen.connect_for_each_screen(function(s)
                         awful.spawn("rofi -show drun")
                 end),
                 button({
-                    width = dpi(30),
+                    width = height,
+                    height = height - margins * 2,
                     bg = beautiful.colours.blue,
                     shape = utils.rrect(dpi(15)),
                     child = icon{ icon = beautiful.home_icon, colour = "#000000", size = dpi(20) }
@@ -97,12 +108,13 @@ awful.screen.connect_for_each_screen(function(s)
                 spacing = dpi(5),
                 layout = wibox.layout.fixed.horizontal
             },
+            spacing = dpi(10),
             layout = wibox.layout.align.horizontal
         },
         right = dpi(20),
         left = dpi(20),
-        top = dpi(5),
-        bottom = dpi(5),
+        top = margins,
+        bottom = margins,
         widget = wibox.container.margin
     }
 
@@ -112,7 +124,7 @@ awful.screen.connect_for_each_screen(function(s)
         visible = true,
         ontop = false,
         type = "dock",
-        height = dpi(30),
+        height = height,
         width = s.geometry.width -dpi(48),
         bg = beautiful.panel,
         shape = utils.rrect(beautiful.rounded_corners),
@@ -120,5 +132,5 @@ awful.screen.connect_for_each_screen(function(s)
     })
 
     awful.placement.top(s.bar, { margins = beautiful.useless_gap })
-    s.bar:struts({ top = s.bar.height + beautiful.useless_gap * 2, bottom = 0, left = 0, right = 0 })
+    s.bar:struts({ top = s.bar.height + beautiful.useless_gap, bottom = 0, left = 0, right = 0 })
 end)

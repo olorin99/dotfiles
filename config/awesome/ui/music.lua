@@ -137,14 +137,13 @@ local volume = wibox.widget {
     widget = wibox.widget.slider
 }
 
-volume:connect_signal("property::value", function()
-    playerctl:set_volume(volume.value / 100, "mpd")
+volume:connect_signal("property::value", function(_, value)
+    playerctl:set_volume(value / 100, "mpd")
 end)
 
---playerctl:connect_signal("volume", function(_, volume)
---    naughty.notify({ message = tostring(volume * 100) })
---    volume.value = math.floor(volume * 100)
---end)
+playerctl:connect_signal("volume", function(_, value)
+    volume.value = math.floor(value * 100)
+end)
 
 playerctl:connect_signal("metadata", function(_, title, artist, album_path, album, player_name)
     if not (player_name == "mpd") then

@@ -32,28 +32,8 @@ end
 
 awful.screen.connect_for_each_screen(function(s)
 
-    local width = dpi(300)
-
-    
-        local scroll = wibox.widget {
-            forced_height = dpi(100),
-            spacing = dpi(5),
-            scrollbar_widget = {
-                shape = utils.rrect(dpi(8)),
-                widget = wibox.widget.separator
-            },
-            scrollbar_width = dpi(10),
-            step = 10,
-            layout = scrollable.vertical
-        }
-
-    
-        for i = 1, 4 do
-        scroll:add(wibox.widget {
-                text = "ajfhakdjfha lkdfjhalk sdfdj hasdlkfrhueal kdjfhal sdfh aksdjfh aksdjfha sdfadbf aldakdfhaksjfha lkdfhalksdfjhaksdfjh alksdfjhalkdfjha slkdfbnaskldfbja lsdkfbja lksjdfb aslkjdfb alksjdfb alksdfbja slkjdfb aslkdfbj aslkdfbja skldfbj asdklfbj aslkdfbja slkdfbj askljdfb askljdfb akjlsdfb alksjdfb alkjbf akjdfab ladfkjb dabjlfka",
-                widget = wibox.widget.textbox
-            })
-            end
+    local height = s.geometry.height - beautiful.top_bar_height - beautiful.useless_gap * 2
+    local width = beautiful.side_panel_width
 
     local sidepanel = wibox.widget {
         panel_section(wibox.widget {
@@ -100,7 +80,7 @@ awful.screen.connect_for_each_screen(function(s)
             button({ width = dpi(50), bg = beautiful.colours.blue }, function() awesome.quit() end),
             layout = wibox.layout.flex.horizontal
         }),
-        panel_section(scroll),
+        maximum_height = height,
         forced_width = width,
         spacing = dpi(20),
         layout = wibox.layout.fixed.vertical
@@ -116,6 +96,16 @@ awful.screen.connect_for_each_screen(function(s)
         visible = false,
         ontop = true,
         placement = awful.placement.right,
+        --[[placement = function(w)
+            awful.placement.right(w, {
+                margins = {
+                    top = beautiful.top_bar_height + beautiful.useless_gap * 2,
+                    bottom = beautiful.useless_gap,
+                    left = 0,
+                    right = 0
+                }
+            })
+        end,]]--
         bg = "#00000000",
         --shape = utils.prrect(beautiful.rounded_corners, true, false, false, true),
         widget = sidepanel,
