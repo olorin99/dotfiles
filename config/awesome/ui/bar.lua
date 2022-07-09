@@ -19,12 +19,19 @@ local taglist_buttons = gears.table.join(
 awful.screen.connect_for_each_screen(function(s)
 
     local height = beautiful.top_bar_height
-    local margins = dpi(5)
+    local margins = height * 0.2
 
     local taglist = awful.widget.taglist {
         screen = s,
         filter = awful.widget.taglist.filter.noempty,
         buttons = taglist_buttons,
+        style = {
+            fg_focus = "#000000",
+            bg_focus = beautiful.active,
+            bg_occupied = beautiful.inactive,
+            bg_empty = beautiful.inactive,
+            shape = utils.rrect(dpi(8))
+        },
         widget_template = {
             {
                 {
@@ -33,13 +40,12 @@ awful.screen.connect_for_each_screen(function(s)
                     valign = "center",
                     widget = wibox.widget.textbox
                 },
-                bg = beautiful.inactive,
-                shape = utils.rrect(dpi(8)),
+                id = "background_role",
                 forced_width = height,
-                forced_height = height - margins * 2 - dpi(8),
+                forced_height = height * 0.5,
                 widget = wibox.container.background
             },
-            margins = dpi(4),
+            margins = height * 0.05,
             widget = wibox.container.margin
         }
     }
@@ -53,6 +59,8 @@ awful.screen.connect_for_each_screen(function(s)
         child = wibox.widget {
             valign = "center",
             halign = "center",
+            forced_height = height - margins * 3,
+            forced_width = height - margins * 3,
             image = beautiful.layout_icons[1],
             widget = wibox.widget.imagebox
         }
@@ -73,7 +81,11 @@ awful.screen.connect_for_each_screen(function(s)
             --left
             layout_switcher,
             --mid
-            taglist,
+            {
+                taglist,
+                left = dpi(20),
+                widget = wibox.container.margin
+            },
             --right
             {
                 battery(dpi(30), "north", true),

@@ -11,12 +11,14 @@ local icon = require("ui.widgets.icon")
 local naughty = require("naughty")
 
 return function(args)
+    local args = args or {}
     local width = args.width or dpi(100)
-    local button_width = (width / 2 - dpi(10)) / 3
+    local gaps = args.gaps or width * 0.1
+    local button_width = width * 0.2
 
     local album_art = wibox.widget {
-        forced_height = width / 4,
-        forced_width = width / 4,
+        forced_height = width * 0.5,
+        forced_width = width * 0.5,
         widget = wibox.widget.imagebox
     }
 
@@ -24,8 +26,8 @@ return function(args)
         markup = utils.coloured_text("Unknown", beautiful.fg_focus),
         align = "center",
         valign = "center",
-        font = beautiful.font_var .. " 12",
-        forced_width = width / 4 * 3,
+        font = beautiful.font_var .. utils.pixels_to_point(button_width),
+        forced_width = width - album_art.forced_width,
         widget = wibox.widget.textbox
     }
 
@@ -33,6 +35,7 @@ return function(args)
         markup = utils.coloured_text("Unknown", "#000000"),
         align = "center",
         valign = "center",
+        font = beautiful.font_var .. utils.pixels_to_point(button_width / 2),
         widget = wibox.widget.textbox
     }
 
@@ -44,7 +47,7 @@ return function(args)
         handle_color = beautiful.active,
         handle_shape = gears.shape.circle,
         handle_width = dpi(9),
-        forced_width = width / 2,
+        forced_width = width,
         forced_height = dpi(10),
         value = 70,
         maximum = 100,
@@ -90,22 +93,33 @@ return function(args)
 
     local player = wibox.widget {
         {
-            album_art,
+            {
+                album_art,
+                halign = "center",
+                valign = "center",
+                widget = wibox.container.place
+            },
             {
                 song_title,
                 song_artist,
-                layout = wibox.layout.flex.vertical
+                {
+                    {
+                        previous,
+                        play_pause,
+                        next,
+                        spacing = gaps,
+                        layout = wibox.layout.fixed.horizontal
+                    },
+                    halign = "center",
+                    valign = "center",
+                    widget = wibox.container.place
+                },
+                layout = wibox.layout.fixed.vertical
             },
             nil,
-            layout = wibox.layout.align.horizontal
+            layout = wibox.layout.align.horizontal   
         },
-        {
-            previous,
-            play_pause,
-            next,
-            layout = wibox.layout.flex.horizontal
-        },
-        spacing = dpi(3),
+        spacing = gaps,
         song_position,
         layout = wibox.layout.fixed.vertical
     }

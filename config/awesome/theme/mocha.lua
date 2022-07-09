@@ -1,7 +1,3 @@
----------------------------
--- Default awesome theme --
----------------------------
-
 local theme_assets = require("beautiful.theme_assets")
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
@@ -43,9 +39,9 @@ local colours = {
 local theme = {}
 
 theme.colours = colours
-theme.font_var = "Montserrat"
+theme.font_var = "Roboto "
 
-theme.font          = theme.font_var .. " 8"
+theme.font          = theme.font_var .. "8"
 
 theme.bg_normal     = colours.base
 theme.bg_focus      = colours.crust
@@ -82,8 +78,8 @@ theme.top_bar_height = dpi(30)
 theme.side_panel_width = dpi(400)
 
 -- icons
-theme.icon_font_var = "Material Icons, Regular"
-theme.icon_font = theme.icon_font_var .. " 8"
+theme.icon_font_var = "Material Icons, Regular "
+theme.icon_font = theme.icon_font_var .. "8"
 
 theme.search_icon = utils.utf8("e8b6")
 theme.home_icon = utils.utf8("e88a")

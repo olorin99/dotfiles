@@ -26,6 +26,7 @@ return function(size, orientation, percentage)
     local percentage_text = wibox.widget {
         align = "center",
         valign = "center",
+        font = beautiful.font_var .. utils.pixels_to_point(size / 2),
         widget = wibox.widget.textbox
     }
 
@@ -43,13 +44,13 @@ return function(size, orientation, percentage)
                 charging_icon,
                 layout = wibox.layout.stack
             },
-            percentage_text,
-            spacing = dpi(5),
-            layout = wibox.layout.fixed.horizontal
+            valign = "center",
+            halign = "center",
+            widget = wibox.container.place
         },
-        valign = "center",
-        halign = "center",
-        widget = wibox.container.place
+        percentage_text,
+        spacing = dpi(5),
+        layout = wibox.layout.fixed.horizontal
     }
 
 

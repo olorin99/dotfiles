@@ -26,7 +26,7 @@ function power:watch_charging_status()
         end
 
         awful.widget.watch("cat " .. status_file, 30, function(_, stdout)
-            self:emit_signal("battery::charging", stdout == "Charging\n")
+            self:emit_signal("battery::charging", stdout == "Charging\n" or stdout == "Full\n")
         end)
     end)
 end

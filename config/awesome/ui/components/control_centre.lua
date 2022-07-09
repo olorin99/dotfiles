@@ -10,7 +10,7 @@ local icon = require("ui.widgets.icon")
 local playerctl = require("modules.bling").signal.playerctl.cli()
 local naughty = require("naughty")
 local scrollable = require("ui.widgets.scrollable")
-
+local network = require("daemons.network")
 
 return function(args)
     local args = args or {}
@@ -47,10 +47,20 @@ return function(args)
         open_wifi_submenu()
     end)
     
-    awesome.connect_signal("signals::network", function(status, ssid)
+    network:connect_signal("connection", function(_, ssid)
+        wifi_toggle.all_children[3].markup = utils.coloured_text(ssid, "#000000")
+    end)
+    network:connect_signal("status", function(_, status)
+        wifi_toggle.status = status
+        if status == false then
+            wifi_toggle.all_children[3].markup = utils.coloured_text("None", "#000000")
+        end
+    end)
+
+    --[[awesome.connect_signal("signals::network", function(status, ssid)
         wifi_toggle.all_children[3].markup = utils.coloured_text(ssid, "#000000")
         wifi_toggle.status = status
-    end)
+    end)]]--
     
     -- sound toggle
     local sounds_toggle = toggle({
@@ -185,6 +195,7 @@ return function(args)
                 widget = wibox.widget.textbox
             }
         }, function(self)
+            network:scan_networks()
             awesome.emit_signal("signals::network_scan_start")
         end),
         {
@@ -211,10 +222,16 @@ return function(args)
         toggles.visible = true
     end)
     
+    --network:connect_signal("scan_finished", function(_, networks)
+    --    for n in networks do
+    --        naughty.notify({ message = n.ssid })
+     --   end
+    --end)
+
     awesome.connect_signal("signals::network_scan_finished", function(networks)
         available_wifi:reset()
         for _, network in ipairs(networks) do
-            naughty.notify{ message = network }
+            --naughty.notify{ message = network }
             available_wifi:add(wibox.widget {
                 {
                     text = network,
@@ -341,11 +358,11 @@ return function(args)
         toggles.visible = true
     end)
     
-    
+    local screenshot_button_height = (height - dpi(10)) / 3
     local screenshot_submenu = wibox.widget {
         button({
             width = dpi(30),
-            bg = beautiful.colours.blue,
+            height = screenshot_button_height,
             shape = utils.rrect(dpi(8)),
             child = wibox.widget {
                 valign = "center",
@@ -364,7 +381,7 @@ return function(args)
         end),
         button({
             width = dpi(30),
-            bg = beautiful.colours.blue,
+            height = screenshot_button_height,
             shape = utils.rrect(dpi(8)),
             child = wibox.widget {
                 valign = "center",
@@ -383,7 +400,7 @@ return function(args)
         end),
         button({
             width = dpi(30),
-            bg = beautiful.colours.blue,
+            height = screenshot_button_height,
             shape = utils.rrect(dpi(8)),
             child = wibox.widget {
                 valign = "center",

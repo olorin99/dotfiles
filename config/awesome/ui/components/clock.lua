@@ -14,7 +14,7 @@ return function(size, args)
         valign = "center",
         align = "center",
         format = utils.coloured_text(format, colour),
-        font = beautiful.font_var .. " " .. utils.pixels_to_point(size),
+        font = beautiful.font_var .. utils.pixels_to_point(size),
         widget = wibox.widget.textclock
     }
 

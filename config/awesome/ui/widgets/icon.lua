@@ -15,7 +15,7 @@ return function(args)
         valign = "center",
         align = "center",
         markup = icon,
-        font = beautiful.icon_font_var .. " " .. utils.pixels_to_point(size),
+        font = beautiful.icon_font_var .. utils.pixels_to_point(size),
         widget = wibox.widget.textbox
     }
 end

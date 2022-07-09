@@ -38,14 +38,24 @@ awful.screen.connect_for_each_screen(function(s)
     local sidepanel = wibox.widget {
         panel_section(wibox.widget {
             {
-                clock(60),
-                clock(30, { format = "%A %d/%m" }),
+                {
+                    clock(100, { format = "%I", colour = beautiful.fg_focus }),
+                    clock(100, { format = "%M", colour = beautiful.fg_normal }),
+                    spacing = dpi(40),
+                    layout = wibox.layout.fixed.horizontal
+                },
+                valign = "center",
+                halign = "center",
+                widget = wibox.container.place
+            },
+            {
+                clock(30, { format = "%A %d %B" }),
                 layout = wibox.layout.fixed.vertical
             },
             {
                 {
                     markup = utils.coloured_text(user.user, beautiful.fg_focus),
-                    font = beautiful.font_var .. " 20",
+                    font = beautiful.font_var .. "20",
                     align = "center",
                     valign = "center",
                     widget = wibox.widget.textbox
