@@ -2,6 +2,8 @@ local awful = require("awful")
 local gobject = require("gears.object")
 local gtable = require("gears.table")
 
+local naughty = require("naughty")
+
 local power = {}
 local instance = nil
 
@@ -20,14 +22,11 @@ end
 function power:watch_charging_status()
     awful.spawn.easy_async_with_shell("sh -c 'OUT=\"$(find /sys/class/power_supply/BAT?/status)\" && (echo \"$OUT\" | head -1) || false'", function(status_file, _, _, exit_code)
         if not (exit_code == 0) then
-            naughty.notify({ message = status_file })
             return
         end
-            naughty.notify({ message = status_file })
 
         awful.widget.watch("cat " .. status_file, 30, function(_, stdout)
-            naughty.notify({ message = stdout })
-            self:emit_signal("battery::charging", stdout == "Charging")
+            self:emit_signal("battery::charging", stdout == "Charging\n")
         end)
     end)
 end

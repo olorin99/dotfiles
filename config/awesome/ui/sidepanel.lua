@@ -37,7 +37,11 @@ awful.screen.connect_for_each_screen(function(s)
 
     local sidepanel = wibox.widget {
         panel_section(wibox.widget {
-            clock(50, { colour = beautiful.fg_focus }),
+            {
+                clock(60),
+                clock(30, { format = "%A %d/%m" }),
+                layout = wibox.layout.fixed.vertical
+            },
             {
                 {
                     markup = utils.coloured_text(user.user, beautiful.fg_focus),
@@ -50,7 +54,7 @@ awful.screen.connect_for_each_screen(function(s)
                 battery(dpi(50), "north", true),
                 layout = wibox.layout.align.horizontal
             },
-            control_centre(),
+            control_centre({ height = dpi(150) }),
             spacing = dpi(10),
             layout = wibox.layout.fixed.vertical
         }),
@@ -80,7 +84,6 @@ awful.screen.connect_for_each_screen(function(s)
             button({ width = dpi(50), bg = beautiful.colours.blue }, function() awesome.quit() end),
             layout = wibox.layout.flex.horizontal
         }),
-        maximum_height = height,
         forced_width = width,
         spacing = dpi(20),
         layout = wibox.layout.fixed.vertical
@@ -138,17 +141,33 @@ awful.screen.connect_for_each_screen(function(s)
 
     awesome.connect_signal("signals::sidepanel", function(scr)
         scr.sidepanel.visible = true
-        scr.animation.target = scr.geometry.width + scr.geometry.x - width
+        --[[mousegrabber.run(function(mouse)
+            
+            local x, y = mouse.x, mouse.y
+
+            if x < scr.sidepanel.x then
+                scr.sidepanel.visible = false
+                return false
+            end
+            return true
+        end, "fleur")]]--
+        --scr.animation.target = scr.geometry.width + scr.geometry.x - width
     end)
 
+    --[[s:connect_signal("button::press", function(_, x, y, button_id, _, geo)
+        naughty.notify({ message = tostring(x) .. " " .. tostring(y) })
+    end)]]--
+
     awesome.connect_signal("signals::hide_panels", function(scr)
-        scr.animation.target = scr.geometry.width + scr.geometry.x
-        hide_timeout:again()
+        --scr.animation.target = scr.geometry.width + scr.geometry.x
+        --hide_timeout:again()
+        scr.sidepanel.visible = false
     end)
 
     s.sidepanel:connect_signal("mouse::leave", function()
-        s.animation.target = s.geometry.width + s.geometry.x
-        hide_timeout:again()
+        --s.animation.target = s.geometry.width + s.geometry.x
+        --hide_timeout:again()
+        s.sidepanel.visible = false
     end)
 
 end)

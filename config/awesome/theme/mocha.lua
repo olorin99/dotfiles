@@ -96,7 +96,7 @@ theme.wifi_icon_2 = utils.utf8("ebd6")
 theme.wifi_icon_3 = utils.utf8("ebe1")
 theme.wifi_icon_4 = utils.utf8("e1d8")
 theme.bluetooth_icon = utils.utf8("e1a7")
-
+theme.charging_icon = utils.utf8("ea0b")
 theme.brightness_icon = utils.utf8("e1ac")
 
 theme.volume_icon = utils.utf8("e050")

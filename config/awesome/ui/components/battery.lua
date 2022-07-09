@@ -5,6 +5,7 @@ local beautiful = require("beautiful")
 local utils = require("utils")
 local dpi = beautiful.xresources.apply_dpi
 local power = require("daemons.power")
+local icon = require("ui.widgets.icon")
 
 return function(size, orientation, percentage)
 
@@ -28,51 +29,46 @@ return function(size, orientation, percentage)
         widget = wibox.widget.textbox
     }
 
+    local charging_icon = icon {
+        size = size / 2,
+        icon = beautiful.charging_icon,
+        colour = beautiful.fg_focus
+    }
+    charging_icon.visible = false
+
     local battery = wibox.widget {
         {
             {
                 progress,
-                direction = orientation or "north",
-                widget = wibox.container.rotate,
+                charging_icon,
+                layout = wibox.layout.stack
             },
-            {
-                percentage_text,
-                direction = orientation or "north",
-                widget = wibox.container.rotate
-            },
-            layout = wibox.layout.stack
+            percentage_text,
+            spacing = dpi(5),
+            layout = wibox.layout.fixed.horizontal
         },
         valign = "center",
         halign = "center",
         widget = wibox.container.place
     }
 
-    local colour = "#000000"
 
     power:connect_signal("battery::percentage", function(self, value)
         if percentage then
-            percentage_text.markup = utils.coloured_text(tostring(value) .. "%", colour)
+            percentage_text.markup = utils.coloured_text(tostring(value) .. "%", beautiful.fg_focus)
         end
         progress.value = value
     end)
 
     power:connect_signal("battery::charging", function(self, charging)
         if charging then
-            colour = "#ffffff"
+            charging_icon.visible = true
+            progress.border_color = beautiful.fg_focus
         else
-            colour = "#000000"
+            charging_icon.visible = false
+            progress.border_color = beautiful.border_normal
         end
-        percentage_text.markup = utils.coloured_text(tostring(percentage_text.value) .. "%", colour)
-        percentage_text.border_color = colour
     end)
---[[
-    awesome.connect_signal("signals::battery", function(value)
-        if percentage then
-            percentage_text.markup = utils.coloured_text(tostring(value) .. "%", "#000000")
-        end
-        progress.value = value
-    end)
-]]--
+    
     return battery
-
 end
