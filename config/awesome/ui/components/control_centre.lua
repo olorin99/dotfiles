@@ -38,9 +38,9 @@ return function(args)
         }
     }, function(self)
         if not self:toggle() then
-            awful.spawn("nmcli radio wifi off")
+            network:turn_off()
         else
-            awful.spawn("nmcli radio wifi on")
+            network:turn_on()
         end
     end,
     function(self)

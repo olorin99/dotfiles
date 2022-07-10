@@ -28,6 +28,7 @@ return function(args)
         valign = "center",
         font = beautiful.font_var .. utils.pixels_to_point(button_width),
         forced_width = width - album_art.forced_width,
+        forced_height = button_width,
         widget = wibox.widget.textbox
     }
 
