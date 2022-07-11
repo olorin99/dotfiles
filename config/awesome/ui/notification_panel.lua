@@ -88,7 +88,7 @@ end)
 awful.screen.connect_for_each_screen(function(s)
     
     local width = beautiful.side_panel_width
-    local height = s.geometry.height - beautiful.useless_gap * 2 - beautiful.top_bar_height
+    local height = s.geometry.height - beautiful.useless_gap * 3 - beautiful.top_bar_height
 
     local recent = wibox.widget {
         forced_height = height - dpi(30 + 20 + 50 + 40),

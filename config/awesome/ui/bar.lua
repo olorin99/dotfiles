@@ -9,6 +9,7 @@ local battery = require("ui.components.battery")
 local button = require("ui.widgets.button")
 local clock = require("ui.components.clock")
 local icon = require("ui.widgets.icon")
+local wifi = require("ui.components.wifi")
 
 local naughty = require("naughty")
 
@@ -88,6 +89,7 @@ awful.screen.connect_for_each_screen(function(s)
             },
             --right
             {
+                wifi { size = height * 0.5 },
                 battery(dpi(30), "north", true),
                 clock(utils.pixels_to_point(height), { colour = beautiful.fg_focus }),
                 button({

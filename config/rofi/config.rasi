@@ -6,7 +6,7 @@ configuration{
     icon-theme: "Oranchelo";
     terminal: "st";
     drun-display-format: "{icon} {name}";
-    location: 0;
+    location: 4;
     disable-history: false;
     hide-scrollbar: true;
     display-drun: "   Apps ";
@@ -24,11 +24,13 @@ element-text, element-icon , mode-switcher {
 }
 
 window {
-    height: 360px;
+    height: calc(100% - 16px);
+    width: 400px;
+    margin: 38px 0px 8px 0px;
     border: 3px;
     border-color: @border-col;
     background-color: @bg-col;
-    border-radius: 15px;
+    border-radius: 15px 0 0 15px;
 }
 
 mainbox {
@@ -66,7 +68,7 @@ listview {
     border: 0px 0px 0px;
     padding: 6px 0px 0px;
     margin: 10px 0px 0px 20px;
-    columns: 2;
+    columns: 1;
     background-color: @bg-col;
 }
 

@@ -76,7 +76,7 @@ return function(args)
     end)
     network:connect_signal("status", function(_, status)
         wifi_toggle.children[1].status = status
-        if status == false then
+        if status ~= "connected" then
             ssid_text.markup = utils.coloured_text("None", "#000000")
         end
     end)

@@ -39,8 +39,20 @@ function network:status()
         self._private.wifi.hw_state = sections[3]
         self._private.wifi.state = sections[4]
         self._private.wwan.hw_state = sections[5]
-        sefl._private.wwan.state = sections[6]
-        --self:emit_signal("status", self._private.state, self._private.connectivity, self._private.wifi, self._private.wwan)
+        self._private.wwan.state = sections[6]
+        self:emit_signal("status", self._private.state, self._private.connectivity, self._private.wifi, self._private.wwan)
+    end)
+end
+
+function network:strength()
+    awful.spawn.easy_async_with_shell("nmcli -f IN-USE,SIGNAL,SSID dev wifi | awk '/^\\*/{if (NR!=1) {print $2}}'", function(stdout, _, _, exit_code)
+        if not (exit_code == 0) then
+            self:emit_signal("error", "unable to get wifi strength")
+            return
+        end
+
+        self._private.wifi.strength = tonumber(stdout)
+        self:emit_signal("strength", self._private.wifi.strength)
     end)
 end
 
@@ -74,7 +86,6 @@ function network:scan_networks()
             end
 
             table.insert(self._private.networks, { ssid = ssid })
-            naughty.notify({ message = ssid })
         end,
         output_done = function()
             self:emit_signal("scan_finished", self._private.networks)
@@ -89,10 +100,12 @@ function network:monitor_device()
             stdout = function(out)
                 if out:match("wlp3s0: connected") then
                     self:active_connection()
-                    self:emit_signal("status", true)
-                else
-                    self:emit_signal("status", false)
+                    self:strength()
+                    --self:emit_signal("status", true)
+                --else
+                    --self:emit_signal("status", false)
                 end
+                self:status()
             end
         })
 
@@ -109,7 +122,8 @@ local function new()
     obj._private.connectivity = "none"
     obj._private.wifi = {
         hw_state = "enabled",
-        state = "enabled"
+        state = "enabled",
+        strength = 0
     }
     obj._private.wwan = {
         hw_state = "missing",
@@ -119,6 +133,7 @@ local function new()
     obj:status()
     obj:monitor_device()
     obj:active_connection()
+    obj:strength()
     return obj
 end
 
