@@ -16,7 +16,7 @@ return function(args)
 
 
     local brightness_slider = wibox.widget {
-        bar_shape = utils.rrect(dpi(8)),
+        bar_shape = utils.rrect(dpi(25)),
         bar_height = height,
         bar_color = beautiful.panel1,
         bar_active_color = colour,

@@ -15,8 +15,10 @@ local network = require("daemons.network")
 return function(args)
     local args = args or {}
     local height = args.height or dpi(100)
+    local width = args.width or height
     local toggle_height = height / 2
-
+    local toggle_width = width / 2
+    local toggle_border_radius = dpi(25)
 
     local open_wifi_submenu = function() end
     local open_sounds_submenu = function() end
@@ -24,36 +26,58 @@ return function(args)
     -- toggles
     
     -- wifi toggle
-    local wifi_toggle = toggle({
-        size = toggle_height,
-        child = wibox.widget {
-            icon{ icon = beautiful.wifi_icon, colour = "#000000", size = dpi(25) },
-            wibox.widget {
-                valign = "center",
-                align = "center",
-                markup = utils.coloured_text("None", "#000000"),
-                widget = wibox.widget.textbox
-            },
-            layout = wibox.layout.flex.vertical
-        }
-    }, function(self)
-        if not self:toggle() then
-            network:turn_off()
-        else
-            network:turn_on()
-        end
-    end,
-    function(self)
-        open_wifi_submenu()
-    end)
-    
+    local ssid_text = wibox.widget {
+        valign = "center",
+        align = "center",
+        markup = utils.coloured_text("None", "#000000"),
+        widget = wibox.widget.textbox
+    }
+
+    local wifi_toggle = wibox.widget {
+        toggle({
+            height = toggle_height,
+            width = toggle_width * 0.7,
+            shape = utils.prrect(toggle_border_radius, true, false, false, true),
+            child = wibox.widget {
+                icon {
+                    icon = beautiful.wifi_icon,
+                    colour = "#000000",
+                    size = dpi(25)
+                },
+                ssid_text,
+                layout = wibox.layout.flex.horizontal
+            }
+        },
+        function(self)
+            if not self:toggle() then
+                network:turn_off()
+            else
+                network:turn_on()
+            end
+        end),
+        button({
+            height = toggle_height,
+            width = toggle_width * 0.3,
+            shape = utils.prrect(toggle_border_radius, false, true, true, false),
+            child = icon {
+                icon = beautiful.right_icon,
+                colour = "#000000",
+                size = dpi(25)
+            }
+        },
+        function()
+            open_wifi_submenu()
+        end),
+        layout = wibox.layout.fixed.horizontal
+    }
+
     network:connect_signal("connection", function(_, ssid)
-        wifi_toggle.all_children[3].markup = utils.coloured_text(ssid, "#000000")
+        ssid_text.markup = utils.coloured_text(ssid, "#000000")
     end)
     network:connect_signal("status", function(_, status)
-        wifi_toggle.status = status
+        wifi_toggle.children[1].status = status
         if status == false then
-            wifi_toggle.all_children[3].markup = utils.coloured_text("None", "#000000")
+            ssid_text.markup = utils.coloured_text("None", "#000000")
         end
     end)
 
@@ -63,50 +87,68 @@ return function(args)
     end)]]--
     
     -- sound toggle
-    local sounds_toggle = toggle({
-        size = toggle_height,
-        child = wibox.widget {
-            icon{ icon = beautiful.volume_icon, colour = "#000000", size = dpi(25) },
-            wibox.widget {
-                valign = "center",
-                align = "center",
-                markup = utils.coloured_text("Sound", "#000000"),
-                widget = wibox.widget.textbox
-            },
-            layout = wibox.layout.flex.vertical
-        }
-    }, function()
-        awesome.emit_signal("audio::toggle")
-    end,
-    function()
-        open_sounds_submenu()
-    end)
+    local sounds_text = wibox.widget {
+        valign = "center",
+        align = "center",
+        markup = utils.coloured_text("Sound", "#000000"),
+        widget = wibox.widget.textbox
+    }
+
+    local sounds_toggle = wibox.widget {
+        toggle({
+            height = toggle_height,
+            width = toggle_width * 0.7,
+            shape = utils.prrect(toggle_border_radius, true, false, false, true),
+            child = wibox.widget {
+                icon{ icon = beautiful.volume_icon, colour = "#000000", size = dpi(25) },
+                sounds_text,
+                layout = wibox.layout.flex.horizontal
+            }
+        }, function()
+            awesome.emit_signal("audio::toggle")
+        end),
+        button({
+            height = toggle_height,
+            width = toggle_width * 0.3,
+            shape = utils.prrect(toggle_border_radius, false, true, true, false),
+            child = icon {
+                icon = beautiful.right_icon,
+                colour = "#000000",
+                size = dpi(25)
+            }
+        },
+        function()
+            open_sounds_submenu()
+        end),
+        layout = wibox.layout.fixed.horizontal
+    }
     
     awesome.connect_signal("audio::toggle", function()
-        if not sounds_toggle:toggle() then
-            sounds_toggle.all_children[2].markup = utils.coloured_text(beautiful.volume_icon_off, "#000000")
-            sounds_toggle.all_children[3].markup = utils.coloured_text("Mute", "#000000")
+        if not sounds_toggle.children[1]:toggle() then
+            sounds_toggle.all_children[3].markup = utils.coloured_text(beautiful.volume_icon_off, "#000000")
+            sounds_text.markup = utils.coloured_text("Mute", "#000000")
         else
-            sounds_toggle.all_children[2].markup = utils.coloured_text(beautiful.volume_icon, "#000000")
-            sounds_toggle.all_children[3].markup = utils.coloured_text("Sound", "#000000")
+            sounds_toggle.all_children[3].markup = utils.coloured_text(beautiful.volume_icon, "#000000")
+            sounds_text.markup = utils.coloured_text("Sound", "#000000")
         end
     end)
     
     awesome.connect_signal("audio::mute", function()
-        sounds_toggle.all_children[2].markup = utils.coloured_text(beautiful.volume_icon_off, "#000000")
-        sounds_toggle.all_children[3].markup = utils.coloured_text("Mute", "#000000")
-        if sounds_toggle.state then sounds_toggle:toggle() end
+        sounds_toggle.all_children[3].markup = utils.coloured_text(beautiful.volume_icon_off, "#000000")
+        sounds_text.markup = utils.coloured_text("Mute", "#000000")
+        if sounds_toggle.children[1].state then sounds_toggle.children[1]:toggle() end
     end)
     
     awesome.connect_signal("audio::unmute", function()
-        sounds_toggle.all_children[2].markup = utils.coloured_text(beautiful.volume_icon, "#000000")
-        sounds_toggle.all_children[3].markup = utils.coloured_text("Sound", "#000000")
-        if not sounds_toggle.state then sounds_toggle:toggle() end
+        sounds_toggle.all_children[3].markup = utils.coloured_text(beautiful.volume_icon, "#000000")
+        sounds_text.markup = utils.coloured_text("Sound", "#000000")
+        if not sounds_toggle.children[1].state then sounds_toggle.children[1]:toggle() end
     end)
     
     -- bluetooth toggle
     local bluetooth_toggle = toggle({
         size = toggle_height,
+        shape = utils.rrect(toggle_border_radius),
         child = wibox.widget {
             icon{ icon = beautiful.bluetooth_icon, colour = "#000000", size = dpi(25) },
             wibox.widget {
@@ -115,7 +157,7 @@ return function(args)
                 markup = utils.coloured_text("None", "#000000"),
                 widget = wibox.widget.textbox
             },
-            layout = wibox.layout.flex.vertical
+            layout = wibox.layout.flex.horizontal
         }
     }, function(self)
         if not self:toggle() then
@@ -126,41 +168,55 @@ return function(args)
     end)
     
     -- screenshot button
-    local screenshot_button = button({ 
-        width = toggle_height,
-        bg = beautiful.colours.blue,
-        shape = utils.rrect(dpi(8)),
-        child = wibox.widget {
-            icon{ icon = utils.coloured_text(beautiful.screenshot_icon, "#000000"), size = dpi(25) },
-            {
-                valign = "center",
-                align = "center",
-                markup = utils.coloured_text("Screenshot", "#000000"),
-                widget = wibox.widget.textbox
-            },
-            layout = wibox.layout.flex.vertical
-        }}, 
-        function(self)
-            self.bg = beautiful.panel1
-            gears.timer({
-                timeout = 3,
-                single_shot = true,
-                callback = function()
-                    self.bg = beautiful.colours.blue
-                end
-            }):again()
-            --awesome.emit_signal("signals::hide_panels", awful.screen.focused())
-            awful.spawn.easy_async_with_shell("sh -c 'OUT=" .. user.home .. "/Pictures/screenshots/$(date +%s).png && maim $OUT && echo \"$OUT\"'", function(stdout, _, _, exit_code)
-                if not (exit_code == 0) then
-                    return
-                end
+    local screenshot_button = wibox.widget {
+        button({ 
+            height = toggle_height,
+            width = toggle_width * 0.7,
+            bg = beautiful.colours.blue,
+            shape = utils.prrect(toggle_border_radius, true, false, false, true),
+            child = wibox.widget {
+                icon{ icon = utils.coloured_text(beautiful.screenshot_icon, "#000000"), size = dpi(25) },
+                {
+                    valign = "center",
+                    align = "center",
+                    markup = utils.coloured_text("Screenshot", "#000000"),
+                    widget = wibox.widget.textbox
+                },
+                layout = wibox.layout.flex.horizontal
+            }}, 
+            function(self)
+                self.bg = beautiful.panel1
+                gears.timer({
+                    timeout = 3,
+                    single_shot = true,
+                    callback = function()
+                        self.bg = beautiful.colours.blue
+                    end
+                }):again()
+                --awesome.emit_signal("signals::hide_panels", awful.screen.focused())
+                awful.spawn.easy_async_with_shell("sh -c 'OUT=" .. user.home .. "/Pictures/screenshots/$(date +%s).png && maim $OUT && echo \"$OUT\"'", function(stdout, _, _, exit_code)
+                    if not (exit_code == 0) then
+                        return
+                    end
     
-                naughty.notify{ title = "Screenshot", message = stdout }
-            end)
-    end,
-    function()
-        open_screenshot_submenu()
-    end)
+                    naughty.notify{ title = "Screenshot", message = stdout }
+                end)
+        end),
+        button({
+            height = toggle_height,
+            width = toggle_width * 0.3,
+            shape = utils.prrect(toggle_border_radius, false, true, true, false),
+            child = icon {
+                icon = beautiful.right_icon,
+                colour = "#000000",
+                size = dpi(25)
+            }
+        },
+        function()
+            open_screenshot_submenu()
+        end),
+        layout = wibox.layout.fixed.horizontal
+    }
     
     local toggles = wibox.widget {
         wifi_toggle,
@@ -439,6 +495,7 @@ return function(args)
         screenshot_submenu,
 
         forced_height = height,
+        forced_width = width,
         spacing = dpi(5),
         layout = wibox.layout.fixed.vertical
     }

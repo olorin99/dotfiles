@@ -26,18 +26,20 @@ return function(args, left, right)
         widget = wibox.container.background
     }
 
-    button:buttons(gears.table.join(
-        awful.button({ }, 1, function()
-            if left then
-                left(button, c)
-            end
-        end),
-        awful.button({ }, 3, function()
-            if right then
-                right(button, c)
-            end
-        end)
-    ))
+    local buttons = {}
+    if left then
+        table.insert(buttons, awful.button({ }, 1, function()
+            left(button, c)
+        end))
+    end
+
+    if right then
+        table.insert(buttons, awful.button({ }, 3, function()
+            right(button, c)
+        end))
+    end
+
+    button:buttons(buttons)
 
     button:connect_signal("mouse::enter", function()
         button.bg = hover

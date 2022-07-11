@@ -64,7 +64,7 @@ awful.screen.connect_for_each_screen(function(s)
                 battery(dpi(50), "north", true),
                 layout = wibox.layout.align.horizontal
             },
-            control_centre({ height = dpi(150) }),
+            control_centre({ height = dpi(150), width = width - dpi(40) }),
             spacing = dpi(10),
             layout = wibox.layout.fixed.vertical
         }),

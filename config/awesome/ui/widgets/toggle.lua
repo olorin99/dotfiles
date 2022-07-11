@@ -8,6 +8,8 @@ local icon = require("ui.widgets.icon")
 
 return function(args, left, right)
     local size = args.size or dpi(30)
+    local width = args.width or size
+    local height = args.height or width
     local enabled = args.start or true
     local bg_enabled = args.enabled or beautiful.active
     local bg_disabled = args.disabled or beautiful.inactive
@@ -16,26 +18,28 @@ return function(args, left, right)
 
     local toggle = wibox.widget {
         child,
-        forced_height = size,
-        forced_width = size,
+        forced_height = height,
+        forced_width = width,
         bg = enabled and bg_enabled or bg_disabled,
         shape = shape,
         widget = wibox.container.background
     }
     toggle.state = enabled
 
-    toggle:buttons(gears.table.join(
-        awful.button({ }, 1, function()
-            if left then
-                left(toggle)
-            end
-        end),
-        awful.button({ }, 3, function()
-            if right then
-                right(toggle)
-            end
-        end)
-    ))
+    local buttons = {}
+
+    if left then
+        table.insert(buttons, awful.button({ }, 1, function()
+            left(toggle)
+        end))
+    end
+    if right then
+        table.insert(buttons, awful.button({ }, 3, function()
+            right(toggle)
+        end))
+    end
+
+    toggle:buttons(buttons)
 
     toggle.toggle = function(self)
         self.state = not self.state

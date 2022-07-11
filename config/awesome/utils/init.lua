@@ -21,6 +21,14 @@ utils.coloured_text = function(text, colour)
     return "<span foreground=\"" .. colour .. "\">" .. text .. "</span>"
 end
 
+utils.split = function(str, delim)
+    local sections = {}
+    for v in str:gmatch("([^" .. delim .. "]+)") do
+        table.insert(sections, v)
+    end
+    return sections
+end
+
 utils.rrect = function(radius)
     return function(cr, width, height)
         gears.shape.rounded_rect(cr, width, height, radius)
