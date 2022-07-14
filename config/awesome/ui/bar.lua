@@ -9,7 +9,7 @@ local battery = require("ui.components.battery")
 local button = require("ui.widgets.button")
 local clock = require("ui.components.clock")
 local icon = require("ui.widgets.icon")
-local wifi = require("ui.components.wifi")
+local wifi = require("ui.components.wifi_indicator")
 
 local naughty = require("naughty")
 

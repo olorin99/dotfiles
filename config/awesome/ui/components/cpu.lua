@@ -20,6 +20,7 @@ return function(size)
         bg = beautiful.panel1,
         forced_height = size,
         forced_width = size,
+        thickness = size * 0.2,
         --border_width = beautiful.border_width,
         --border_color = beautiful.border_color,
         rounded_edge = true,

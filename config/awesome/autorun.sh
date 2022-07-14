@@ -16,3 +16,4 @@ run() {
 run "picom" "--experimental-backends"
 run "mpDris2"
 touchegg &
+xset -b
