@@ -66,7 +66,7 @@ theme.rounded_corners = dpi(15)
 theme.active = colours.blue
 theme.inactive = colours.surface2
 
-theme.panel = colours.mantle
+theme.panel = colours.mantle .. "96"
 theme.panel1 = colours.surface2
 
 theme.success = colours.green

@@ -95,34 +95,43 @@ return function(args)
     local player = wibox.widget {
         {
             {
-                album_art,
-                halign = "center",
-                valign = "center",
-                widget = wibox.container.place
-            },
-            {
-                song_title,
-                song_artist,
                 {
                     {
-                        previous,
-                        play_pause,
-                        next,
-                        spacing = gaps,
-                        layout = wibox.layout.fixed.horizontal
+                        album_art,
+                        halign = "center",
+                        valign = "center",
+                        widget = wibox.container.place
                     },
-                    halign = "center",
-                    valign = "center",
-                    widget = wibox.container.place
+                    {
+                        song_title,
+                        song_artist,
+                        {
+                            {
+                                previous,
+                                play_pause,
+                                next,
+                                spacing = gaps,
+                                layout = wibox.layout.fixed.horizontal
+                            },
+                            halign = "center",
+                            valign = "center",
+                            widget = wibox.container.place
+                        },
+                        layout = wibox.layout.fixed.vertical
+                    },
+                    nil,
+                    layout = wibox.layout.align.horizontal   
                 },
+                spacing = gaps,
+                song_position,
                 layout = wibox.layout.fixed.vertical
-            },
-            nil,
-            layout = wibox.layout.align.horizontal   
+                },
+            margins = dpi(10),
+            widget = wibox.container.margin
         },
-        spacing = gaps,
-        song_position,
-        layout = wibox.layout.fixed.vertical
+        bg = beautiful.panel,
+        shape = utils.rrect(dpi(beautiful.rounded_corners)),
+        widget = wibox.container.background
     }
 
     playerctl:connect_signal("metadata", function(_, title, artist, album_path, _, _, _)

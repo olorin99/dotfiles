@@ -24,7 +24,7 @@ function panel_section(widgets)
             margins = dpi(20),
             widget = wibox.container.margin
         },
-        bg = beautiful.panel,
+        bg = beautiful.panel .. "10",
         shape = utils.prrect(beautiful.rounded_corners, true, false, false, true),
         widget = wibox.container.background
     }
@@ -33,76 +33,80 @@ end
 awful.screen.connect_for_each_screen(function(s)
 
     local height = s.geometry.height - beautiful.top_bar_height - beautiful.useless_gap * 2
-    local width = beautiful.side_panel_width
+    local width = beautiful.side_panel_width - dpi(40)
 
+    
     local sidepanel = wibox.widget {
-        panel_section(wibox.widget {
+        {
             {
                 {
-                    clock(100, { format = "%I", colour = beautiful.fg_focus }),
-                    clock(100, { format = "%M", colour = beautiful.fg_normal }),
-                    spacing = dpi(40),
-                    layout = wibox.layout.fixed.horizontal
+                    {
+                        {
+                            clock(100, { format = "%I", colour = beautiful.fg_focus }),
+                            clock(100, { format = "%M", colour = beautiful.fg_normal }),
+                            spacing = dpi(40),
+                            layout = wibox.layout.fixed.horizontal
+                        },
+                        valign = "center",
+                        halign = "center",
+                        widget = wibox.container.place
+                    },
+                    clock(30, { format = "%A %d %B" }),
+                    layout = wibox.layout.fixed.vertical
                 },
-                valign = "center",
-                halign = "center",
-                widget = wibox.container.place
-            },
-            {
-                clock(30, { format = "%A %d %B" }),
+                {
+                    {
+                        markup = utils.coloured_text(user.user, beautiful.fg_focus),
+                        font = beautiful.font_var .. utils.pixels_to_point(50),
+                        align = "center",
+                        valign = "center",
+                        widget = wibox.widget.textbox
+                    },
+                    nil,
+                    battery(dpi(50), "north", true),
+                    layout = wibox.layout.align.horizontal
+                },
+                control_centre { height = dpi(150), width = width },
+                brightness { height = dpi(25), width = width },
+                volume { height = dpi(25), width = width },
+                media_controller { width = dpi(200) },
+                {
+                    cpu(dpi(100)),
+                    ram(dpi(100)),
+                    layout = wibox.layout.flex.horizontal
+                },
+                {
+                    button({
+                        width = dpi(50),
+                        bg = beautiful.colours.maroon
+                    }, function()
+                        awful.spawn("shutdown now")
+                    end),
+                    button({
+                        width = dpi(50),
+                        bg = beautiful.colours.green
+                    }, function()
+                        awful.spawn("systemctl reboot")
+                    end),
+                    button({
+                        width = dpi(50),
+                        bg = beautiful.colours.blue
+                    }, function()
+                        awesome.quit()
+                    end),
+                    layout = wibox.layout.flex.horizontal
+                },
+                spacing = dpi(30),
                 layout = wibox.layout.fixed.vertical
             },
-            {
-                {
-                    markup = utils.coloured_text(user.user, beautiful.fg_focus),
-                    font = beautiful.font_var .. "20",
-                    align = "center",
-                    valign = "center",
-                    widget = wibox.widget.textbox
-                },
-                nil,
-                battery(dpi(50), "north", true),
-                layout = wibox.layout.align.horizontal
-            },
-            control_centre({ height = dpi(150), width = width - dpi(40) }),
-            spacing = dpi(10),
-            layout = wibox.layout.fixed.vertical
-        }),
-        panel_section(wibox.widget {
-            media_controller({ width = dpi(200) }),
-            layout = wibox.layout.fixed.vertical
-        }),
-        panel_section(wibox.widget {
-            brightness({ height = dpi(25), width = width - dpi(20) }),
-            volume({ height = dpi(25), width = width - dpi(20) }),
-            spacing = dpi(10),
-            layout = wibox.layout.fixed.vertical
-        }),
-        panel_section(wibox.widget {
-            cpu(dpi(100)),
-            ram(dpi(100)),
-            spacing = dpi(10),
-            layout = wibox.layout.flex.horizontal
-        }),
-        panel_section(wibox.widget {
-            button({ width = dpi(50), bg = beautiful.colours.maroon }, function()
-                awful.spawn("shutdown now")
-            end),
-            button({ width = dpi(50), bg = beautiful.colours.green }, function()
-                awful.spawn("systemctl reboot")
-            end),
-            button({ width = dpi(50), bg = beautiful.colours.blue }, function() awesome.quit() end),
-            layout = wibox.layout.flex.horizontal
-        }),
-        forced_width = width,
-        spacing = dpi(20),
-        layout = wibox.layout.fixed.vertical
+            margins = dpi(20),
+            widget = wibox.container.margin
+        },
+        forced_width = width + dpi(40),
+        shape = utils.prrect(beautiful.rounded_corners, true, false, false, true),
+        bg = beautiful.panel,
+        widget = wibox.container.background
     }
-
---    function sidepanel:before_draw_children(context, cr, width, height)
---        cr:rectangle(0, 0, self.clip_width, height)
---        cr:clip()
---    end
     
     s.sidepanel = awful.popup{
         screen = s,
@@ -120,9 +124,9 @@ awful.screen.connect_for_each_screen(function(s)
             })
         end,]]--
         bg = "#00000000",
-        --shape = utils.prrect(beautiful.rounded_corners, true, false, false, true),
+        shape = utils.prrect(beautiful.rounded_corners, true, false, false, true),
         widget = sidepanel,
-        type = "dock"
+        type = "panel"
     }
     
     local x = s.geometry.width + s.geometry.x

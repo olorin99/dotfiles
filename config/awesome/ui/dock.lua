@@ -160,7 +160,7 @@ awful.screen.connect_for_each_screen(function(s)
 
     s.dock_trigger = wibox {
         screen = s,
-        bg = "#000000",
+        bg = "#00000000",
         widget = wibox.container.background,
         ontop = true,
         opacity = 0,

@@ -137,12 +137,12 @@ awful.screen.connect_for_each_screen(function(s)
         --position = "top",
         visible = true,
         ontop = false,
-        type = "dock",
         height = height,
         width = s.geometry.width -dpi(48),
         bg = beautiful.panel,
         shape = utils.rrect(beautiful.rounded_corners),
-        widget = bar
+        widget = bar,
+        type = "panel"
     })
 
     awful.placement.top(s.bar, { margins = beautiful.useless_gap })

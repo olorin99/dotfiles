@@ -197,6 +197,7 @@ awful.screen.connect_for_each_screen(function(s)
         visible = false,
         ontop = true,
         bg = "#00000000",
+        shape = utils.prrect(beautiful.rounded_corners, true, false, false, true),
         placement = function(w)
             awful.placement.right(w, {
                 margins = {
@@ -209,7 +210,7 @@ awful.screen.connect_for_each_screen(function(s)
         end,
         --placement = awful.placement.right,
         widget = notification_panel,
-        type = "dock"
+        type = "panel"
     }
 
     awesome.connect_signal("signals::notification_panel", function(scr)
