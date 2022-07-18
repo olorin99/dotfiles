@@ -5,6 +5,8 @@ local dpi = beautiful.xresources.apply_dpi
 local utils = require("utils")
 local gears = require("gears")
 
+local system = require("daemons.system")
+
 return function(size)
 
     local cpu_text = wibox.widget {
@@ -17,12 +19,10 @@ return function(size)
     local cpu_progress = wibox.widget {
         cpu_text,
         colors = { beautiful.colours.green },
-        bg = beautiful.panel1,
+        bg = beautiful.bg_inactive,
         forced_height = size,
         forced_width = size,
         thickness = size * 0.2,
-        --border_width = beautiful.border_width,
-        --border_color = beautiful.border_color,
         rounded_edge = true,
         value = 70,
         max_value = 100,
@@ -38,7 +38,7 @@ return function(size)
         layout = wibox.layout.stack
     }
 
-    awesome.connect_signal("signals::cpu", function(value)
+    system:connect_signal("cpu", function(_, value)
         value = math.min(100, math.max(0, value))
         cpu_progress.value = value
         cpu_text.markup = utils.coloured_text(tostring(value) .. "%", beautiful.fg_focus)

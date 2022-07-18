@@ -1,22 +1,21 @@
 local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
-local dpi = beautiful.xresources.apply_dpi
 local utils = require("utils")
 local system = require("daemons.system")
 
 return function(size)
-
-    local ram_text = wibox.widget {
-        markup = utils.coloured_text("70%", beautiful.fg_focus),
-        align = "center",
+    
+    local disk_text = wibox.widget {
         valign = "center",
+        align = "center",
+        text = "70",
         widget = wibox.widget.textbox
     }
 
-    local ram_chart = wibox.widget {
-        ram_text,
-        colors = { beautiful.colours.mauve },
+    local disk_chart = wibox.widget {
+        disk_text,
+        colors = { beautiful.colours.sapphire },
         bg = beautiful.bg_inactive,
         forced_height = size,
         forced_width = size,
@@ -29,12 +28,11 @@ return function(size)
         widget = wibox.container.arcchart
     }
 
-    system:connect_signal("ram", function(_, used, total)
-        local percentage = used / total * 100
-        ram_chart.value = percentage
-        ram_text.markup = utils.coloured_text(tostring(math.floor(percentage)) .. "%", beautiful.fg_focus)
-
+    system:connect_signal("disk", function(_, size, used)
+        disk_chart.value = math.floor(used / 1000000)
+        disk_chart.max_value = math.floor(size / 1000000)
+        disk_text.text = tostring(math.floor(used / 1000000)) .. "G"
     end)
 
-    return ram_chart
+    return disk_chart
 end

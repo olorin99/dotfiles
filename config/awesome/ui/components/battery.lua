@@ -11,7 +11,7 @@ return function(size, orientation, percentage)
 
     local progress = wibox.widget {
         color = "#40a02b",
-        background_color = beautiful.inactive,
+        background_color = beautiful.bg_inactive,
         forced_height = size / 2,
         forced_width = size,
         border_width = beautiful.border_width,

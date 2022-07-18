@@ -45,6 +45,8 @@ theme.font          = theme.font_var .. "8"
 
 theme.bg_normal     = colours.base
 theme.bg_focus      = colours.crust
+theme.bg_active     = colours.blue
+theme.bg_inactive   = colours.surface2
 theme.bg_urgent     = colours.mantle
 theme.bg_minimize   = "#444444"
 theme.bg_systray    = theme.bg_normal

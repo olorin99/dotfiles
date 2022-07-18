@@ -46,7 +46,7 @@ local function load_history_file()
                         margins = dpi(10),
                         widget = wibox.container.margin
                     },
-                    bg = beautiful.inactive,
+                    bg = beautiful.bg_inactive,
                     shape = utils.rrect(dpi(8)),
                     widget = wibox.container.background
                 }
@@ -77,7 +77,7 @@ naughty.connect_signal("added", function(notification)
             margins = dpi(10),
             widget = wibox.container.margin
         },
-        bg = beautiful.inactive,
+        bg = beautiful.bg_inactive,
         shape = utils.rrect(dpi(8)),
         widget = wibox.container.background
     }
@@ -136,7 +136,7 @@ awful.screen.connect_for_each_screen(function(s)
                 margins = dpi(10),
                 widget = wibox.container.margin
             },
-            bg = beautiful.inactive,
+            bg = beautiful.bg_inactive,
             shape = utils.rrect(dpi(8)),
             widget = wibox.container.background
         }
@@ -187,7 +187,7 @@ awful.screen.connect_for_each_screen(function(s)
         },
         forced_width = width,
         forced_height = height,
-        bg = beautiful.panel,
+        bg = beautiful.bg_panel,
         shape = utils.prrect(beautiful.rounded_corners, true, false, false, true),
         widget = wibox.container.background
     }

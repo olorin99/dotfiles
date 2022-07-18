@@ -29,9 +29,9 @@ awful.screen.connect_for_each_screen(function(s)
         buttons = taglist_buttons,
         style = {
             fg_focus = "#000000",
-            bg_focus = beautiful.active,
-            bg_occupied = beautiful.inactive,
-            bg_empty = beautiful.inactive,
+            bg_focus = beautiful.bg_active,
+            bg_occupied = beautiful.bg_inactive,
+            bg_empty = beautiful.bg_inactive,
             shape = utils.rrect(dpi(8))
         },
         widget_template = {
@@ -56,7 +56,7 @@ awful.screen.connect_for_each_screen(function(s)
     local layout_switcher = button({ 
         width = height,
         height = height - margins * 2,
-        bg = beautiful.inactive,
+        bg = beautiful.bg_inactive,
         shape = utils.rrect(dpi(15)),
         child = wibox.widget {
             valign = "center",
@@ -142,7 +142,7 @@ awful.screen.connect_for_each_screen(function(s)
         ontop = false,
         height = height,
         width = s.geometry.width -dpi(48),
-        bg = beautiful.panel,
+        bg = beautiful.bg_panel,
         shape = utils.rrect(beautiful.rounded_corners),
         widget = bar,
         type = "panel"

@@ -11,8 +11,8 @@ return function(args, left, right)
     local width = args.width or size
     local height = args.height or width
     local enabled = args.start or true
-    local bg_enabled = args.enabled or beautiful.active
-    local bg_disabled = args.disabled or beautiful.inactive
+    local bg_enabled = args.enabled or beautiful.bg_active
+    local bg_disabled = args.disabled or beautiful.bg_inactive
     local shape = args.shape or utils.rrect(dpi(8))
     local child = args.child or nil
 

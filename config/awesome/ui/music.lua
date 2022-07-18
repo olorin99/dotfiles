@@ -19,7 +19,7 @@ local album_art = wibox.widget {
 }
 
 local song_artist = wibox.widget {
-    font = beautiful.font_var .. " 14",
+    font = beautiful.font_var .. "14",
     markup = utils.coloured_text("Unknown", "#ffffff"),
     align = "center",
     valign = "center",
@@ -27,7 +27,7 @@ local song_artist = wibox.widget {
 }
 
 local song_album = wibox.widget {
-    font = beautiful.font_var .. " 14",
+    font = beautiful.font_var .. "14",
     markup = utils.coloured_text("Unknown", "#ffffff"),
     align = "center",
     valign = "center",
@@ -35,7 +35,7 @@ local song_album = wibox.widget {
 }
 
 local song_title = wibox.widget {
-    font = beautiful.font_var .. " 20",
+    font = beautiful.font_var .. "20",
     markup = utils.coloured_text("None Playing", "#ffffff"),
     align = "center",
     valign = "center",
@@ -47,8 +47,8 @@ local song_position = wibox.widget {
     value = 70,
     forced_height = dpi(10),
     bar_shape = utils.rrect(dpi(8)),
-    color = beautiful.active,
-    background_color = beautiful.inactive,
+    color = beautiful.bg_active,
+    background_color = beautiful.bg_inactive,
     widget = wibox.widget.progressbar
 }
 --[[local song_position = wibox.widget {
@@ -124,9 +124,9 @@ end)
 local volume = wibox.widget {
     bar_shape = utils.rrect(dpi(8)),
     bar_height = dpi(10),
-    bar_color = beautiful.inactive,
-    bar_active_color = beautiful.active,
-    handle_color = beautiful.active,
+    bar_color = beautiful.bg_inactive,
+    bar_active_color = beautiful.bg_active,
+    handle_color = beautiful.bg_active,
     handle_shape = gears.shape.circle,
     handle_width = dpi(9),
     forced_height = dpi(10),

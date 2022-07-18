@@ -9,8 +9,8 @@ local icon = require("ui.widgets.icon")
 return function(args, left, right)
     local args = args or {}
     local c = args.client or nil
-    local bg = args.bg or beautiful.active
-    local hover = args.hover or bg .. "be" or beautiful.inactive
+    local bg = args.bg or beautiful.bg_active
+    local hover = args.hover or bg .. "be" or beautiful.bg_inactive
     local margins = args.margins or dpi(5)
     local shape = args.shape or gears.shape.circle
     local width = args.width or dpi(10)

@@ -15,21 +15,10 @@ local clock = require("ui.components.clock")
 local button = require("ui.widgets.button")
 local cpu = require("ui.components.cpu")
 local ram = require("ui.components.ram")
+local temp = require("ui.components.temp")
+local disk = require("ui.components.disk")
 
 local scrollable = require("ui.widgets.scrollable")
-
-function panel_section(widgets)
-    return wibox.widget {
-        {
-            widgets,
-            margins = dpi(20),
-            widget = wibox.container.margin
-        },
-        bg = beautiful.panel .. "10",
-        shape = utils.prrect(beautiful.rounded_corners, true, false, false, true),
-        widget = wibox.container.background
-    }
-end
 
 awful.screen.connect_for_each_screen(function(s)
 
@@ -68,12 +57,14 @@ awful.screen.connect_for_each_screen(function(s)
                     layout = wibox.layout.align.horizontal
                 },
                 control_centre { height = height * 0.15, width = width, cols = 2, rows = 2 },
-                brightness { height = height * 0.01, width = width },
-                volume { height = height * 0.01, width = width },
+                brightness { height = height * 0.02, width = width },
+                volume { height = height * 0.02, width = width },
                 media_controller { height = height * 0.1, width = width },
                 {
-                    cpu(dpi(100)),
-                    ram(dpi(100)),
+                    cpu(width * 0.2),
+                    ram(width * 0.2),
+                    temp(width * 0.2),
+                    disk(width * 0.2),
                     layout = wibox.layout.flex.horizontal
                 },
                 {
@@ -106,7 +97,7 @@ awful.screen.connect_for_each_screen(function(s)
         forced_height = height,
         forced_width = width + dpi(40),
         shape = utils.prrect(beautiful.rounded_corners, true, false, false, true),
-        bg = beautiful.panel,
+        bg = beautiful.bg_panel,
         widget = wibox.container.background
     }
     

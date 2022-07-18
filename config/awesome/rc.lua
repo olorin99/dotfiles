@@ -57,7 +57,7 @@ local pinned_apps = {
 
 user.pinned_apps = pinned_apps
 
-beautiful.init(user.awesome_config .. "/theme/" .. user.theme .. ".lua")
+beautiful.init(user.awesome_config .. "/theme/default.lua")
 
 require("daemons")
 require("signals")
