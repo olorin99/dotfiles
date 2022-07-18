@@ -1,6 +1,6 @@
 local awful = require("awful")
 local gears = require("gears")
-
+local beautiful = require("beautiful")
 local naughty = require("naughty")
 
 local utils = {}
@@ -10,11 +10,11 @@ utils.utf8 = function(codepoint)
 end
 
 utils.pixels_to_point = function(pixels)
-    return math.floor(pixels * 0.75)
+    return math.floor(pixels / beautiful.xresources.get_dpi() * 72)
 end
 
 utils.point_to_pixels = function(point)
-    return math.ceil(point / 0.75)
+    return math.ceil(point * beautiful.xresources.get_dpi() * 72)
 end
 
 utils.coloured_text = function(text, colour)

@@ -6,6 +6,7 @@ local utils = require("utils")
 local gears = require("gears")
 local rubato = require("modules.rubato")
 local control_centre = require("ui.components.control_centre")
+local control_centrea = require("ui.components.control_centrea")
 local media_controller = require("ui.components.media_controller")
 local battery = require("ui.components.battery")
 local brightness = require("ui.components.brightness")
@@ -32,7 +33,7 @@ end
 
 awful.screen.connect_for_each_screen(function(s)
 
-    local height = s.geometry.height - beautiful.top_bar_height - beautiful.useless_gap * 2
+    local height = s.geometry.height - beautiful.top_bar_height - beautiful.useless_gap * 3
     local width = beautiful.side_panel_width - dpi(40)
 
     
@@ -66,10 +67,10 @@ awful.screen.connect_for_each_screen(function(s)
                     battery(dpi(50), "north", true),
                     layout = wibox.layout.align.horizontal
                 },
-                control_centre { height = dpi(150), width = width },
-                brightness { height = dpi(25), width = width },
-                volume { height = dpi(25), width = width },
-                media_controller { width = dpi(200) },
+                control_centre { height = height * 0.1, width = width, cols = 2, rows = 2 },
+                brightness { height = height * 0.02, width = width },
+                volume { height = height * 0.02, width = width },
+                media_controller { height = height * 0.1, width = width },
                 {
                     cpu(dpi(100)),
                     ram(dpi(100)),
@@ -96,12 +97,13 @@ awful.screen.connect_for_each_screen(function(s)
                     end),
                     layout = wibox.layout.flex.horizontal
                 },
-                spacing = dpi(30),
+                spacing = math.ceil(height * 0.01),
                 layout = wibox.layout.fixed.vertical
             },
             margins = dpi(20),
             widget = wibox.container.margin
         },
+        forced_height = height,
         forced_width = width + dpi(40),
         shape = utils.prrect(beautiful.rounded_corners, true, false, false, true),
         bg = beautiful.panel,
@@ -112,8 +114,8 @@ awful.screen.connect_for_each_screen(function(s)
         screen = s,
         visible = false,
         ontop = true,
-        placement = awful.placement.right,
-        --[[placement = function(w)
+        --placement = awful.placement.right,
+        placement = function(w)
             awful.placement.right(w, {
                 margins = {
                     top = beautiful.top_bar_height + beautiful.useless_gap * 2,
@@ -122,7 +124,7 @@ awful.screen.connect_for_each_screen(function(s)
                     right = 0
                 }
             })
-        end,]]--
+        end,
         bg = "#00000000",
         shape = utils.prrect(beautiful.rounded_corners, true, false, false, true),
         widget = sidepanel,

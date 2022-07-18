@@ -21,7 +21,7 @@ return function(args)
         bar_color = beautiful.panel1,
         bar_active_color = colour,
         bar_border_width = beautiful.border_width,
-        bar_border_color = beautiful.border_color,
+        --bar_border_color = beautiful.border_color,
         handle_color = colour,
         handle_shape = gears.shape.circle,--utils.rrect(dpi(4)),
         handle_width = height - beautiful.border_width,

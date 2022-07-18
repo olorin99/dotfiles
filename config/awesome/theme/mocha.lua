@@ -74,7 +74,7 @@ theme.warning = colours.peach
 theme.error = colours.maroon
 
 -- widget sizing
-theme.top_bar_height = dpi(30)
+theme.top_bar_height = dpi(20)
 theme.side_panel_width = dpi(400)
 
 -- icons

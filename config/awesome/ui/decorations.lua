@@ -8,6 +8,10 @@ local button = require("ui.widgets.button")
 
 client.connect_signal("request::titlebars", function (c)
 
+    local height = beautiful.top_bar_height * 0.7
+    local button_size = height * 0.8
+
+
     local buttons = gears.table.join(
         awful.button({ }, 1, function()
             c:emit_signal("request::activate", "titlebar", { raise = true })
@@ -23,7 +27,7 @@ client.connect_signal("request::titlebars", function (c)
 
     awful.titlebar(c, {
         position = "top",
-        size = dpi(30)
+        size = height
     }):setup {
         nil,
         {
@@ -36,14 +40,14 @@ client.connect_signal("request::titlebars", function (c)
         },
         {
             {
-                button({ width = dpi(15), bg = beautiful.colours.blue, margins = dpi(0), client = c }, function(self, c)
+                button({ width = button_size, bg = beautiful.colours.blue, margins = dpi(0), client = c }, function(self, c)
                     c.minimized = true
                 end),
-                button({ width = dpi(15), bg = beautiful.colours.green, margins = dpi(0), client = c }, function(self, c)
+                button({ width = button_size, bg = beautiful.colours.green, margins = dpi(0), client = c }, function(self, c)
                     c.maximized = not c.maximized
                     c:raise()
                 end),
-                button({ width = dpi(15), bg = beautiful.colours.maroon, margins = dpi(0), client = c }, function(self, c)
+                button({ width = button_size, bg = beautiful.colours.maroon, margins = dpi(0), client = c }, function(self, c)
                     c:kill()
                 end),
                 layout = wibox.layout.fixed.horizontal,
