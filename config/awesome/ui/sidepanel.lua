@@ -67,9 +67,9 @@ awful.screen.connect_for_each_screen(function(s)
                     battery(dpi(50), "north", true),
                     layout = wibox.layout.align.horizontal
                 },
-                control_centre { height = height * 0.1, width = width, cols = 2, rows = 2 },
-                brightness { height = height * 0.02, width = width },
-                volume { height = height * 0.02, width = width },
+                control_centre { height = height * 0.15, width = width, cols = 2, rows = 2 },
+                brightness { height = height * 0.01, width = width },
+                volume { height = height * 0.01, width = width },
                 media_controller { height = height * 0.1, width = width },
                 {
                     cpu(dpi(100)),

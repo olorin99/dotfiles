@@ -13,12 +13,13 @@ local naughty = require("naughty")
 return function(args)
     local args = args or {}
     local width = args.width or dpi(100)
-    local gaps = args.gaps or width * 0.1
-    local button_width = width * 0.2
+    local height = args.height or width
+    local gaps = args.gaps or height * 0.1
+    local button_width = height * 0.2
 
     local album_art = wibox.widget {
-        forced_height = width * 0.5,
-        forced_width = width * 0.5,
+        forced_height = height * 0.7,
+        forced_width = height * 0.7,
         widget = wibox.widget.imagebox
     }
 
@@ -42,14 +43,14 @@ return function(args)
 
     local song_position = wibox.widget {
         bar_shape = utils.rrect(dpi(8)),
-        bar_height = dpi(10),
+        bar_height = height * 0.05,
         bar_color = beautiful.inactive,
         bar_active_color = beautiful.active,
         handle_color = beautiful.active,
         handle_shape = gears.shape.circle,
-        handle_width = dpi(9),
+        handle_width = (height * 0.05) - 1,
         forced_width = width,
-        forced_height = dpi(10),
+        forced_height = height * 0.05,
         value = 70,
         maximum = 100,
         minimum = 0,
@@ -125,12 +126,14 @@ return function(args)
                 spacing = gaps,
                 song_position,
                 layout = wibox.layout.fixed.vertical
-                },
-            margins = dpi(10),
+            },
+            margins = height * 0.05,
             widget = wibox.container.margin
         },
         bg = beautiful.panel,
-        shape = utils.rrect(dpi(beautiful.rounded_corners)),
+        forced_height = height,
+        forced_width = width,
+        shape = utils.rrect(beautiful.rounded_corners),
         widget = wibox.container.background
     }
 
