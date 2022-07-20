@@ -5,7 +5,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local dpi = beautiful.xresources.apply_dpi
 local utils = require("utils")
-
+local menubar = require("menubar")
 local rubato = require("modules.rubato")
 
 local battery = require("ui.components.battery")
@@ -37,13 +37,14 @@ local tasklist_buttons = gears.table.join(
 function create_icon(args)
     
     local class = args.class or "invalid"
-    local cmd = args.cmd or function () end
+    local cmd = function() awful.spawn.with_shell(args.Exec) end or function () end
+    local name = args.Name or "application"
 
     local icon = wibox.widget {
         {
             valign = "center",
             halign = "center",
-            image = args.icon,
+            image = menubar.utils.lookup_icon(args.Icon),
             widget = wibox.widget.imagebox
         },
         forced_width = dpi(48),
@@ -53,6 +54,13 @@ function create_icon(args)
         widget = wibox.container.background
     }
     --TODO: focus indicator, tooltip
+
+    local tooltip = awful.tooltip {
+        objects = { icon },
+        timer_function = function()
+            return name
+        end
+    }
 
     icon:buttons(gears.table.join(
         awful.button({ }, 1, cmd), --TODO: focus or create new
@@ -151,7 +159,7 @@ awful.screen.connect_for_each_screen(function(s)
         visible = true,
         ontop = true,
         placement = awful.placement.bottom,
-        bg = beautiful.panel,
+        bg = beautiful.bg_panel,
         shape = utils.rrect(beautiful.rounded_corners),
         widget = dock,
         type = "dock"
@@ -227,3 +235,10 @@ awful.screen.connect_for_each_screen(function(s)
     end)
 
 end)
+
+
+function reload_dock()
+    for s in screen do
+        s.dock.widget.children[1].children[1] = create_pinned({ pinned_apps = user.pinned_apps })
+    end
+end

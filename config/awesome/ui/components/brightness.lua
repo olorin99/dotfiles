@@ -22,8 +22,11 @@ return function(args)
         bar_active_color = colour,
         bar_border_width = beautiful.border_width,
         handle_color = colour,
-        handle_shape = gears.shape.circle,
-        handle_width = height - beautiful.border_width,
+        handle_shape = function(cr, h, w)
+            utils.rrect(dpi(6))(cr, height, height)
+        end,
+        --handle_shape = gears.shape.circle,
+        handle_width = height,
         forced_width = width,
         forced_height = height,
         value = 70,

@@ -92,7 +92,7 @@ awful.screen.connect_for_each_screen(function(s)
             },
             --right
             {
-                wifi { size = height * 0.5 },
+                wifi { size = height - margins * 2 },
                 battery(height, "north", true),
                 clock(height / 2, { colour = beautiful.fg_focus }),
                 button({

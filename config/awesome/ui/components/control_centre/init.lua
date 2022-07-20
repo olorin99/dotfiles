@@ -7,6 +7,7 @@ local utils = require("utils")
 local wifi_toggle = require("ui.components.control_centre.wifi_toggle")
 local sounds_toggle = require("ui.components.control_centre.sounds_toggle")
 local screenshot_toggle = require("ui.components.control_centre.screenshot_toggle")
+local theme_toggle = require("ui.components.control_centre.theme_toggle")
 
 return function(args)
     local args = args or {}
@@ -41,11 +42,13 @@ return function(args)
     local wifi_toggle, wifi_submenu = wifi_toggle(toggle_args)
     local sounds_toggle, sounds_submenu = sounds_toggle(toggle_args)
     local screenshot_toggle, screenshot_submenu = screenshot_toggle(toggle_args)
+    local theme_toggle = theme_toggle(toggle_args)
 
     local toggle_list = {
         wifi_toggle,
         sounds_toggle,
-        screenshot_toggle
+        screenshot_toggle,
+        theme_toggle
     }
 
     local row = 1

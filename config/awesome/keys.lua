@@ -208,6 +208,11 @@ local client_keys = gears.table.join(
                 end)
 )
 
+local global_buttons = gears.table.join(
+    awful.button({ }, 4, awful.tag.viewnext),
+    awful.button({ }, 5, awful.tag.viewprev)
+)
+
 local client_buttons = gears.table.join(
     awful.button({}, 1, function(c)
         c:emit_signal("request::activate", "mouse_click", { raise = true })
@@ -223,10 +228,11 @@ local client_buttons = gears.table.join(
 )
 
 root.keys(global_keys)
-
+root.buttons(global_buttons)
 
 return {
     global_keys = global_keys,
+    global_buttons = global_buttons,
     client_keys = client_keys,
     client_buttons = client_buttons
 }
